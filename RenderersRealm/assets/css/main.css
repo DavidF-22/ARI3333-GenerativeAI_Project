@@ -1,150 +1,433 @@
-/* General smooth scrolling */
-html {
+* {
     scroll-behavior: smooth;
-}
-
-/* Navigation Bar */
-.navbar-container {
-    display: flex;
-    justify-content: space-between;
-    /* Space between links and theme selector */
-    align-items: center;
-    /* Center items vertically */
-    background-color: #000000;
-    padding: 15px 20px;
-    /* Adjust padding as needed */
-}
-
-/* Navigation links */
-.navbar {
-    display: flex;
-    gap: 15px;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    /* outline: dashed 1px red; */
+}
+
+ul {
     list-style: none;
 }
 
-.navbar li {
-    list-style: none;
-}
-
-.navbar a {
-    color: white;
+a {
     text-decoration: none;
-    padding: 8px 15px;
-    font-size: 18px;
+    color: inherit;
+    position: relative; /* Required for pseudo-elements */
 }
 
-.navbar a:hover {
-    text-decoration: underline;
+a::before,
+a::after {
+    content: '';
+    position: absolute;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+a::before {
+    content: '[';
+    left: -0.5em;
+}
+
+a::after {
+    content: ']';
+    right: -0.5em;
+}
+
+a:hover::before,
+a:hover::after {
+    opacity: 1;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #2c2c2c;
+    padding-top: 60px;
+}
+
+
+
+/* header - navigation */
+.header {
+    background-color: rgba(162, 162, 162, 0.7);
+    position: fixed;
+    width: 100%;
+    top: 0;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 60px;
+}
+
+.header-firstRow {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    color: rgb(255, 255, 255);
+    font-size: 2rem;
+    letter-spacing: -1.5px;
+    font-weight: 600;
+    margin: 1ex;
+}
+
+.header-firstRow button {
+    color: white;
+    margin: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.header-firstRow .red-theme {
+    background-color: #a71515;
+    border-radius: 100%;
+    padding: 2ex 2ex;
+}
+
+.header-firstRow .blue-theme {
+    background-color: #1594a7;
+    border-radius: 100%;
+    padding: 2ex 2ex;
+}
+
+.dark-theme {
+    background-color: rgb(72, 70, 70);
+    background-image: url("../images/moon.png");
+    background-size: 80%; /* Scale the image within the button */
+    background-position: center; /* Center the image within the button */
+    background-repeat: no-repeat; /* Prevent the image from tiling */
+    background-clip: padding-box; /* Ensure background stays within padding */
+    border-radius: 50%; /* Keeps the button circular */
+    padding: 5px; /* Adds space between the image and the border */
+    width: 4ex; /* Fixed button size */
+    height: 4ex;
+    border: none; /* Remove any default button border */
+    cursor: pointer;
+}
+
+.dark-theme--to_light {
+    background-color: white;
+    background-image: url("../images/sun.png"); /* Correct usage of background-image */
+    background-size: 80%; /* Scale the image within the button */
+    background-position: center; /* Center the image within the button */
+    background-repeat: no-repeat; /* Prevent the image from tiling */
+    background-clip: padding-box; /* Ensure background stays within padding */
+    border-radius: 50%; /* Keeps the button circular */
+    padding: 5px; /* Adds space between the image and the border */
+    width: 4ex; /* Fixed button size */
+    height: 4ex;
+    border: none; /* Remove any default button border */
+    cursor: pointer;
+}
+
+.header-firstRow .redTheme-text,
+.header-firstRow .blueTheme-text,
+.header-firstRow .darkTheme-text {
+    display:none;
+}
+
+.header-firstRow .red-theme:hover ~ .redTheme-text {
+    opacity: 1;
+    display: contents;
+    color: #c10909;
+    font-size: 15px;
     font-weight: bold;
 }
 
-/* Theme selector container */
-.theme-selector {
+.header-firstRow .blue-theme:hover ~ .blueTheme-text {
+    visibility: visible;
+    display: contents;
+    color: #0799af;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.header-firstRow .dark-theme:hover ~ .darkTheme-text,
+.dark-theme--to_light:hover ~.darkTheme-text {
+    visibility: visible;
+    display: contents;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+
+.nav-list {
     display: flex;
-    gap: 10px;
-    align-items: center;
-    /* Align icons vertically with nav links */
+    column-gap: 40px;
+    margin: 2ex;
 }
 
-/* Style for theme buttons */
-.circle {
-    width: 20px;
-    height: 20px;
-    border: 0.4ex solid black;
-    border-radius: 50%;
+.nav-link {
+    color: rgb(255, 255, 255);
+    font-size: 18px;
+    font-weight: bold;
+    transition: all 0.5s;
+}
+
+.hamburger {
+    display: none;
     cursor: pointer;
 }
 
-.circle.blue {
-    background-color: #007bb5;
+.bar {
+    width: 27px;
+    height: 2px;
+    background-color: rgb(0, 0, 0);
+    margin: 5px 0;
+    opacity: 0.8;
+    transition: all 0.3s ease-in-out;
 }
 
-.circle.red {
-    background-color: #b71c1c;
+.nav {
+    transition: all 0.3s ease-in-out;
 }
 
-/* Dark mode toggle icon */
-.dark-mode-toggle img {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
+.nav--open {
+    transform: translate(0) !important;
+
 }
 
-.dark-mode-toggle img:hover {
-    transform: scale(1.1);
+.hamburger--open .bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
 }
 
-@media screen and (max-width: 500px) {
-    .navbar-container {
-        flex-wrap: wrap;
-        justify-content: center;
+.hamburger--open .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger--open .bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+@media (max-width: 860px) {
+    .nav {
+        position: fixed;
+        top: 74px;
+        left: 0;
+        background-color: rgba(162, 162, 162, 0.7);
+        width: 100%;
+        padding: 10px 0 20px;
+        transform: translateX(-100%);
     }
 
-    .navbar {
+    .nav-list {
         flex-direction: column;
-        padding: 0;
+        align-items: center;
+        row-gap: 20px;
     }
 
-    .navbar li {
-        font-size: 18px;
+    .hamburger {
+        display: block;
+        cursor: pointer;
+    }
+
+    .nev-link {
+        font-size: 14px;
+    }
+
+    .bar {
+        display: block;
     }
 }
 
-/* Footer */
-.footer {
-    background: #0c0c0c;
-    padding: 15px 0;
-    color: #fff;
+
+
+/* Main */
+main {
+    margin-top: 2ex;
+    display: flex;
+    flex-direction: row;
+}
+.chatHistory {
+    border-radius: 25px;
+    background: rgba(162, 162, 162, 0.7);
+    margin-right: 5ex;
+    margin-left: 7ex;
+    margin-top: 2px;
+    overflow-y: auto;
+    position: relative;
+    scrollbar-width: thin; /* For Firefox, make scrollbar thin */
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+
+}
+
+.chatHistoryContent {
+    padding: 24.5rem 25ex;
+}
+
+.chatHistory h1 {
+    position: sticky; /* Fixes the heading at the top */
+    top: 0; /* Sticks to the top of the chatHistory */
+    background-color: rgba(162, 162, 162, 0.9); /* Match background to maintain the design */
+    padding: 10px;
+    margin: 0;
     text-align: center;
+    font-size: 18px;
+    color: white;
+    z-index: 1; /* Ensure it stays above other content */
 }
 
-.footer-designed-by,
-.footer-names {
+/* Webkit-based browsers (Chrome, Edge, Safari) */
+.chatOut::-webkit-scrollbar,
+.chatHistory::-webkit-scrollbar {
+    width: 8px; /* Adjust scrollbar width to fit inside the gray area */
+}
+
+.chatOut::-webkit-scrollbar-track,
+.chatHistory::-webkit-scrollbar-track {
+    background: rgba(162, 162, 162, 0.5); /* Match track to container */
+    border-radius: 10px; /* Keep scrollbar track within border */
+}
+
+.chatOut::-webkit-scrollbar-thumb,
+.chatHistory::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.4); /* Semi-transparent scrollbar thumb */
+    border-radius: 10px; /* Rounded thumb for consistent look */
+    border: 2px solid rgba(162, 162, 162, 0.7); /* Make thumb blend better inside */
+}
+
+.chatOut::-webkit-scrollbar-thumb:hover,
+.chatHistory::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.6); /* Brighten thumb on hover */
+}
+
+.chat {
+    padding: 0;
+    margin-top: 2px;
+    width: 87rem;
     display: flex;
     flex-direction: column;
+    justify-content: flex-end; /* Pushes chatIn to the bottom */
+    align-items: center; /* Centers chatIn horizontally */
+}
+
+.chatIn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center; /* Center the elements within chatIn */
+    align-items: center; /* Vertically align input and button */
+    width: 90%; /* Adjust width to fit nicely within the chat container */
+    gap: 10px; /* Space between input and button */
+}
+
+.chatIn textarea {
+    width: 100%;
+    flex: 1; /* Input box takes up remaining space */
+    padding: 20px;
+    margin-top: 2ex;
+    margin-bottom: 2ex;
+    border-radius: 100px;
+    color: white; /* Set the input text color to white */
+    font-size: 16px;
+    border: 1px solid #ccc;
+    background-color: rgba(162, 162, 162, 0.7);
+    letter-spacing: -0.5px;
+}
+
+.chatIn textarea::placeholder {
+    color: white;
+    font-size: 16px;
+    letter-spacing: -0.5px;
+    
+}
+
+.chatIn button {
+    background-image: url("../images/paper-plane.png");
+    background-size: 70%; /* Scale the image within the button */
+    background-position: center; /* Center the image within the button */
+    background-repeat: no-repeat; /* Prevent the image from tiling */
+    background-clip: padding-box; /* Ensure background stays within padding */
+    padding: 27px 27px;
+    border-radius: 100%;
+    background-color: limegreen;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 2ex;
+    margin-bottom: 2ex;
+}
+
+.chatIn button:hover {
+    background-color: green; /* Darker blue on hover */
+}
+
+.chatOut {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    position: relative; /* To position initial content */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
+.initialContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    animation: fadeIn 0.5s ease-in-out; /* Smooth entry animation */
+}
+
+.initialIcon img {
+    width: 15ex; /* Adjust size as needed */
+    height: 15ex;
+    image-rendering: optimizeQuality; /* Keep image quality */
+}
+
+.initialText h1 {
+    font-size: 30px;
+    color: white;
+}
+
+.initialText span {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.7);
     margin: 0;
 }
 
-/* Preloader */
-.preloader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: white;
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+/* Messages */
+.userMessage,
+.aiMessage {
+    max-width: 70%;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    word-wrap: break-word;
+    display: none;
 }
 
-.preloader--hidden {
-    opacity: 0;
-    visibility: hidden;
+.aiMessage--active {
+    display: block;
+    align-self: flex-start;
+    background-color: #d1e7ff;
+    color: #000;
 }
 
-.preloader::after {
-    content: "";
-    width: 75px;
-    height: 75px;
-    border: 15px solid darkgray;
-    border-top-color: black;
-    border-radius: 50%;
-    animation: loading 0.75s ease infinite;
+.userMessage--active {
+    display: block;
+    align-self: flex-end;
+    background-color: #f0f0f0;
+    color: #333;
 }
 
-@keyframes loading {
+/* Keyframes for smooth fade-in */
+@keyframes fadeIn {
     from {
-        transform: rotate(0turn);
+        opacity: 0;
     }
-
     to {
-        transform: rotate(1turn);
+        opacity: 1;
     }
 }

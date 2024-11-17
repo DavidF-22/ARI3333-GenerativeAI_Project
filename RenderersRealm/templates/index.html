@@ -1,14 +1,41 @@
 {% extends "layout.html" %}
 
-{% block navBar %}
-{% include "navBar.html" %}
+{% block header %}
+{% include "header.html"%}
 {% endblock %}
 
 {% block content %}
-<h1>Main Page</h1>
-<p>Welcome to the index page!</p>
-{% endblock %}
+<!-- ======= Main ======= -->
+<main class="main">
+    <div class="chatHistory">
+        <h1>Chat Logs</h1>
+        <div class="chatHistoryContent"></div>
+        <!-- Chat Logs will be dynamically added here -->
+    </div>
 
-{% block footer %}
-{% include "footer.html" %}
+    <div class="chat">
+        <div class="chatOut">
+            <!-- Centered Icon and Text Initially -->
+            <div class="initialContent" id="initialContent">
+                <div class="initialIcon">
+                    <img src="assets/images/RenderersRealm_Icon1.ico" alt="Renderer's Realm Icon" />
+                </div>
+                <div class="initialText">
+                    <h1>Renderer's Realm</h1>
+                    <span>Powered by DALL-E 3</span>
+                </div>
+            </div>
+
+            <!-- Messages will be dynamically added to these divs -->
+            <div class="aiMessage">AI</div>
+            <div class="userMessage">User</div>
+        </div>
+
+        <div class="chatIn">
+            <textarea placeholder="Write a line, get a design! 🙂"></textarea>
+            <button class="chatInputButton"></button>
+        </div>
+    </div>
+</main>
+<!-- Main End -->
 {% endblock %}
