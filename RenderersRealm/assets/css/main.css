@@ -1,0 +1,150 @@
+/* General smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Navigation Bar */
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    /* Space between links and theme selector */
+    align-items: center;
+    /* Center items vertically */
+    background-color: #000000;
+    padding: 15px 20px;
+    /* Adjust padding as needed */
+}
+
+/* Navigation links */
+.navbar {
+    display: flex;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.navbar li {
+    list-style: none;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    font-size: 18px;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+/* Theme selector container */
+.theme-selector {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    /* Align icons vertically with nav links */
+}
+
+/* Style for theme buttons */
+.circle {
+    width: 20px;
+    height: 20px;
+    border: 0.4ex solid black;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.circle.blue {
+    background-color: #007bb5;
+}
+
+.circle.red {
+    background-color: #b71c1c;
+}
+
+/* Dark mode toggle icon */
+.dark-mode-toggle img {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.dark-mode-toggle img:hover {
+    transform: scale(1.1);
+}
+
+@media screen and (max-width: 500px) {
+    .navbar-container {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .navbar {
+        flex-direction: column;
+        padding: 0;
+    }
+
+    .navbar li {
+        font-size: 18px;
+    }
+}
+
+/* Footer */
+.footer {
+    background: #0c0c0c;
+    padding: 15px 0;
+    color: #fff;
+    text-align: center;
+}
+
+.footer-designed-by,
+.footer-names {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+/* Preloader */
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+.preloader--hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.preloader::after {
+    content: "";
+    width: 75px;
+    height: 75px;
+    border: 15px solid darkgray;
+    border-top-color: black;
+    border-radius: 50%;
+    animation: loading 0.75s ease infinite;
+}
+
+@keyframes loading {
+    from {
+        transform: rotate(0turn);
+    }
+
+    to {
+        transform: rotate(1turn);
+    }
+}
