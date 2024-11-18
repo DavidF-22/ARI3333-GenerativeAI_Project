@@ -6,14 +6,76 @@ const navElement = document.querySelector('.nav');
 const hamburgerElement = document.querySelector('.hamburger');
 const bodyElement = document.querySelector('body');
 
+const chatHistoryElement = document.querySelector('.chatHistory');
+const textareaElement = document.querySelector('.chatIn textarea');
+const headerElement = document.querySelector('.header');
+const textareaPlaceholderElement = document.querySelector('.chatIn textarea');
+
+const largeIconElement = document.querySelector('.initialIcon img'); // Large icon in the center
+const faviconElement = document.querySelector('link[rel="icon"]'); // Favicon in the browser tab
+
+function updateNavBackgroundColor(colour) {
+    if (window.matchMedia('(max-width: 860px)').matches) { 
+        // If screen size is 768px or less
+        navElement.style.backgroundColor = colour; // Apply blue
+    } else {
+        navElement.style.backgroundColor = ''; // Reset or apply a different color
+    }
+}
+
 // Add event listeners to change background color
 redThemeButton.addEventListener('click', () => {
-    bodyElement.style.backgroundColor = '#a71515'; // Red theme background
+    chatHistoryElement.style.backgroundColor = '#790808'; // Firebrick Red for chat history
+    textareaElement.style.backgroundColor = '#790808'; // Firebrick Red for textarea
+    headerElement.style.backgroundColor = '#790808'; // Firebrick Red for header
+    updateNavBackgroundColor('#790808'); // Firebrick Red for nav
+
+    // Change large icon in the center
+    largeIconElement.src = 'assets/images/RenderersRealm_Icon2.ico'; // Path to the red theme large icon
+
+    // Change favicon
+    faviconElement.href = 'assets/images/RenderersRealm_Icon2.ico'; // Path to the red theme favicon
 });
 
+// Blue Theme
 blueThemeButton.addEventListener('click', () => {
-    bodyElement.style.backgroundColor = '#1594a7'; // Blue theme background
+    chatHistoryElement.style.backgroundColor = '#48a6ccb3'; // Blue for chat history
+    textareaElement.style.backgroundColor = '#48a6ccb3'; // Blue for textarea
+    headerElement.style.backgroundColor = '#48a6ccb3'; // Blue for header
+    updateNavBackgroundColor('#48a6ccb3'); // Blue for nav
+
+    // Change large icon in the center
+    largeIconElement.src = 'assets/images/RenderersRealm_Icon1.ico'; // Path to the red theme large icon
+
+    // Change favicon
+    faviconElement.href = 'assets/images/RenderersRealm_Icon1.ico'; // Path to the red theme favicon
 });
+
+// Helper function to change placeholder text color dynamically
+function togglePlaceholderColor(isLightMode) {
+    if (isLightMode) {
+        textareaElement.style.setProperty('--placeholder-color', 'white'); // Light mode placeholder
+    } else {
+        textareaElement.style.setProperty('--placeholder-color', 'black'); // Dark mode placeholder
+    }
+}
+
+// Helper function to toggle text color
+function toggleTextColor(isLightMode) {
+    const textElements = document.querySelectorAll('.h1, span, p, a'); // Add other elements as necessary
+
+    textElements.forEach((el) => {
+        if (isLightMode) {
+            el.style.color = 'white'; // Set text color to black for light mode
+            textareaPlaceholderElement.style.color = 'white'; // Set text color to white for dark mode
+        } else {
+            el.style.color = 'black'; // Set text color to white for dark mode
+            textareaPlaceholderElement.style.color = 'black'; // Set text color to black for light mode
+        }
+
+        togglePlaceholderColor(isLightMode); // Change placeholder color
+    });
+}
 
 darkThemeButton.addEventListener('click', () => {
     if (darkThemeButton.classList.contains('dark-theme--to_light')) {
@@ -21,12 +83,27 @@ darkThemeButton.addEventListener('click', () => {
         bodyElement.style.backgroundColor = '#ffffff'; // Light theme background
         darkThemeButton.classList.remove('dark-theme--to_light'); // Remove light theme icon class
         darkThemeButton.classList.add('dark-theme'); // Ensure dark-theme class remains for dark mode toggle
+
+        toggleTextColor(false); // Switch text to black
     } else {
         // Switch to dark theme
         bodyElement.style.backgroundColor = '#2c2c2c'; // Dark theme background
         darkThemeButton.classList.add('dark-theme--to_light'); // Add light theme icon class
         darkThemeButton.classList.remove('dark-theme'); // Remove dark-theme class for the light mode icon
+
+        toggleTextColor(true); // Switch text to black
     }
+
+    chatHistoryElement.style.backgroundColor = '#a2a2a2b3'; // Dodger Blue for chat history
+    textareaElement.style.backgroundColor = '#a2a2a2b3'; // Sky Blue for textarea
+    headerElement.style.backgroundColor = '#a2a2a2b3'; // Steel Blue for header
+    updateNavBackgroundColor('#a2a2a2b3'); // Steel Blue for header
+
+    // Change large icon in the center
+    largeIconElement.src = 'assets/images/RenderersRealm_Icon1.ico'; // Path to the red theme large icon
+
+    // Change favicon
+    faviconElement.href = 'assets/images/RenderersRealm_Icon1.ico'; // Path to the red theme favicon
 });
 
 // Hamburger toggle for nav
