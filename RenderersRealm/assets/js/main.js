@@ -14,12 +14,37 @@ const textareaPlaceholderElement = document.querySelector('.chatIn textarea');
 const largeIconElement = document.querySelector('.initialIcon img'); // Large icon in the center
 const faviconElement = document.querySelector('link[rel="icon"]'); // Favicon in the browser tab
 
-function updateNavBackgroundColor(colour) {
-    if (window.matchMedia('(max-width: 860px)').matches) { 
-        // If screen size is 768px or less
-        navElement.style.backgroundColor = colour; // Apply blue
+// Helper function to change placeholder text color dynamically
+function togglePlaceholderColor(isLightMode) {
+    if (isLightMode) {
+        textareaElement.style.setProperty('--placeholder-color', 'white'); // Light mode placeholder
     } else {
-        navElement.style.backgroundColor = ''; // Reset or apply a different color
+        textareaElement.style.setProperty('--placeholder-color', 'black'); // Dark mode placeholder
+    }
+}
+
+// Helper function to toggle text color
+function toggleTextColor(isLightMode) {
+    const textElements = document.querySelectorAll('.h1, span, p, a'); // Add other elements as necessary
+
+    textElements.forEach((el) => {
+        if (isLightMode) {
+            el.style.color = 'white'; // Set text color to black for light mode
+            textareaPlaceholderElement.style.color = 'white'; // Set text color to white for dark mode
+        } else {
+            el.style.color = 'black'; // Set text color to white for dark mode
+            textareaPlaceholderElement.style.color = 'black'; // Set text color to black for light mode
+        }
+
+        togglePlaceholderColor(isLightMode); // Change placeholder color
+    });
+}
+
+// Helper function to update border color
+function updateBorderColor(color) {
+    const chatHistoryHeader = document.querySelector('.chatHistory h1');
+    if (chatHistoryHeader) {
+        chatHistoryHeader.style.borderBottomColor = color; // Update the border-bottom color
     }
 }
 
@@ -50,32 +75,6 @@ blueThemeButton.addEventListener('click', () => {
     // Change favicon
     faviconElement.href = 'assets/images/RenderersRealm_Icon1.ico'; // Path to the red theme favicon
 });
-
-// Helper function to change placeholder text color dynamically
-function togglePlaceholderColor(isLightMode) {
-    if (isLightMode) {
-        textareaElement.style.setProperty('--placeholder-color', 'white'); // Light mode placeholder
-    } else {
-        textareaElement.style.setProperty('--placeholder-color', 'black'); // Dark mode placeholder
-    }
-}
-
-// Helper function to toggle text color
-function toggleTextColor(isLightMode) {
-    const textElements = document.querySelectorAll('.h1, span, p, a'); // Add other elements as necessary
-
-    textElements.forEach((el) => {
-        if (isLightMode) {
-            el.style.color = 'white'; // Set text color to black for light mode
-            textareaPlaceholderElement.style.color = 'white'; // Set text color to white for dark mode
-        } else {
-            el.style.color = 'black'; // Set text color to white for dark mode
-            textareaPlaceholderElement.style.color = 'black'; // Set text color to black for light mode
-        }
-
-        togglePlaceholderColor(isLightMode); // Change placeholder color
-    });
-}
 
 darkThemeButton.addEventListener('click', () => {
     if (darkThemeButton.classList.contains('dark-theme--to_light')) {
