@@ -1,0 +1,118 @@
+{% extends "layout.html" %}
+
+{% block header %}
+{% include "header.html"%}
+{% endblock %}
+
+{% block content %}
+<!-- ======= Frequently Asked Questions ======= -->
+<div class="faq-container">
+    <div class="title_button">
+        <h1>Frequently Asked Questions</h1>
+        <button id="toggle-all" class="toggle-all-btn">Expand All</button>
+    </div>
+
+    <div class="faq-item">
+        <span class="faq-question">1. What is this website for?</span>
+        <div class="faq-answer">
+            <span>This website serves as an interface to interact with an image generation API, allowing you to generate
+                custom images without any need for logins.</span>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <span class="faq-question">2. How do I generate an image?</span>
+        <div class="faq-answer">
+            <span>Simply input your desired prompt using the chat on the homepage, select the style or parameters, and
+                click "Generate
+                Image". The API will process your request and display the generated image.</span>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <span class="faq-question">3. Can I change the theme of the website?</span>
+        <div class="faq-answer">
+            <span>Yes, you can switch between red, blue, and light/dark themes using the three circles available on the
+                header of each page.</span>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <span class="faq-question">4. What themes are available?</span>
+        <div class="faq-answer">
+            <span>Available themes include:br
+                <ul>
+                    <li><br><strong>Red Theme:</strong> Crimson accents.</li>
+                    <li><strong>Blue Theme:</strong> Ocean tones.</li>
+                    <li><strong>Light/Dark:</strong> Toggle between light and dark modes.</li>
+                </ul>
+            </span>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <span class="faq-question">5. Do I need an account?</span>
+        <div class="faq-answer">
+            <p>No, you can use the website without any login or account.</p>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <span class="faq-question">6. Is there a limit to the number of images I can generate?</span>
+        <div class="faq-answer">
+            <span>There may be limits depending on the API's usage quotas. If you reach the limit, you will be notified.
+            </span>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <span class="faq-question">7. Can I download the images I generate?</span>
+        <div class="faq-answer">
+            <span>Yes, once an image is generated, you can download it by clicking the download button provided below
+                the
+                image.</span>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <span class="faq-question">8. What types of images can I generate?</span>
+        <div class="faq-answer">
+            <span>You can generate various types of images including abstract art, landscapes, characters, and more
+                based
+                on the prompt you provide.</span>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <span class="faq-question">9. Is the image generation process free?</span>
+        <div class="faq-answer">
+            <span>Yes, the image generation is free, but it may be subject to fair use limits as per the API's
+                terms.</span>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <span class="faq-question">10. How do I get help if I face an issue?</span>
+        <div class="faq-answer">
+            <span>You can check this FAQ section for answers to common questions or troubleshoot issues based on
+                provided
+                guidelines.</span>
+        </div>
+    </div>
+
+</div>
+
+<!-- Frequently Asked Questions End  -->
+{% endblock %}
+
+{% block footer %}
+{% include "footer.html"%}
+{% endblock %}
+
+{% block backToTop %}
+{% include "backToTop.html"%}
+{% endblock %}
+
+{% block preloader %}
+{% include "preloader.html"%}
+{% endblock %}

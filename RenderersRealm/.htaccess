@@ -1,4 +1,8 @@
-<Files "config.ini">
+<Files "composer.json">
+    Require all denied
+</Files>
+
+<Files "composer.lock">
     Require all denied
 </Files>
 
@@ -7,3 +11,7 @@
 </Files>
 
 Options -Indexes
+
+# Custom Error Pages
+ErrorDocument 404 /php/RenderersRealm/error.php
+ErrorDocument 403 /php/RenderersRealm/error.php

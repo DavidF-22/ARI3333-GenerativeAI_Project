@@ -21,7 +21,7 @@
         href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
     <!-- Changing Globe Symbol -->
     <link rel="icon" type="image/x-icon" href="assets/images/RenderersRealm_Icon1.ico" class="pageImage">
 </head>
@@ -37,8 +37,17 @@
     {% block content %}
     {% endblock %}
 
+    {% block footer %}
+    {% endblock %}
+
+    {% block backToTop %}
+    {% endblock %}
+
+    {% block preloader %}
+    {% endblock%}
+
     <!-- Template Main JS File -->
-    <script src="assets/js/main.js" async defer></script>
+    <script src="assets/js/main.js" defer></script>
 </body>
 
 </html>

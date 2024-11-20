@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block header %}
+{% include "header.html"%}
+{% endblock %}
+
+{% block content %}
+<!-- ======= Error Page ======= -->
+<main class="error-page">
+    <div class="error-contents">
+        <img src="assets/images/error.png" alt="Malfunctioning Robot" class="error-img">
+        <h1 class="error-title">Error: {{ error_title }}</h1> <!-- Display the dynamic error title -->
+        <span class="error-message"><b>Reason:</b> {{ error_message }}</span> <!-- Display the dynamic error message -->
+    </div>
+</main>
+<!-- Error Page End -->
+{% endblock %}

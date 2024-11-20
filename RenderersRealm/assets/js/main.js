@@ -5,113 +5,355 @@ const darkThemeButton = document.querySelector('.dark-theme--to_light');
 const navElement = document.querySelector('.nav');
 const hamburgerElement = document.querySelector('.hamburger');
 const bodyElement = document.querySelector('body');
-
+const chatHistoryHeader = document.querySelector('.chatHistory h1');
+const chatInButton = document.querySelector('.chatIn .chatInputButton');
+const chatClickToConvert = document.querySelector('.chatIn #click_to_convert');
 const chatHistoryElement = document.querySelector('.chatHistory');
 const textareaElement = document.querySelector('.chatIn textarea');
 const headerElement = document.querySelector('.header');
 const textareaPlaceholderElement = document.querySelector('.chatIn textarea');
-
 const largeIconElement = document.querySelector('.initialIcon img'); // Large icon in the center
 const faviconElement = document.querySelector('link[rel="icon"]'); // Favicon in the browser tab
-
-// Helper function to change placeholder text color dynamically
-function togglePlaceholderColor(isLightMode) {
-    if (isLightMode) {
-        textareaElement.style.setProperty('--placeholder-color', 'white'); // Light mode placeholder
-    } else {
-        textareaElement.style.setProperty('--placeholder-color', 'black'); // Dark mode placeholder
-    }
-}
+const footerIcon = document.querySelector('.footer-img'); // Footer icon
+const footerBackground = document.querySelector('.footer'); // Footer background
+const toggleAllButton = document.querySelector('.toggle-all-btn');
+const backToTop = document.querySelector('.backToTop');
 
 // Helper function to toggle text color
 function toggleTextColor(isLightMode) {
-    const textElements = document.querySelectorAll('.h1, span, p, a'); // Add other elements as necessary
-
+    const textElements = document.querySelectorAll('h1, h2, span, p, a, .logo'); // Add other elements as necessary
     textElements.forEach((el) => {
         if (isLightMode) {
-            el.style.color = 'white'; // Set text color to black for light mode
-            textareaPlaceholderElement.style.color = 'white'; // Set text color to white for dark mode
+            el.style.color = 'white';
         } else {
-            el.style.color = 'black'; // Set text color to white for dark mode
-            textareaPlaceholderElement.style.color = 'black'; // Set text color to black for light mode
+            el.style.color = 'black';
+        }
+    });
+
+    if (textareaElement) {
+        textareaElement.style.setProperty('--placeholder-color', isLightMode ? 'white' : 'black');
+    }
+}
+
+// Add event listeners only if the elements exist
+if (redThemeButton) {
+    redThemeButton.addEventListener('click', () => {
+        if (largeIconElement) largeIconElement.src = 'assets/images/RenderersRealm_Icon2.ico';
+        if (faviconElement) faviconElement.href = 'assets/images/RenderersRealm_Icon2.ico';
+        if (headerElement) headerElement.style.backgroundColor = '#790808';
+        if (chatHistoryElement) chatHistoryElement.style.backgroundColor = '#790808';
+        if (textareaElement) textareaElement.style.backgroundColor = '#790808';
+        if (chatHistoryHeader) chatHistoryHeader.style.borderBottomColor = '#790808';
+        if (footerIcon) footerIcon.src = 'assets/images/UoM_AI_Logo_black.png';
+        if (footerBackground) footerBackground.style.backgroundColor = '#790808';
+
+        if (chatClickToConvert) {
+            chatClickToConvert.style.backgroundColor = 'orange';
+
+            chatClickToConvert.addEventListener('mouseover', () => {
+                chatClickToConvert.style.backgroundColor = '#c58000';
+            });
+    
+            chatClickToConvert.addEventListener('mouseout', () => {
+                chatClickToConvert.style.backgroundColor = 'orange';
+            });
         }
 
-        togglePlaceholderColor(isLightMode); // Change placeholder color
+        if (chatInButton) {
+            chatInButton.style.backgroundColor = 'orange';
+
+            chatInButton.addEventListener('mouseover', () => {
+                chatInButton.style.backgroundColor = '#c58000';
+            });
+    
+            chatInButton.addEventListener('mouseout', () => {
+                chatInButton.style.backgroundColor = 'orange';
+            });
+        }
+
+        if (toggleAllButton) {
+            toggleAllButton.style.backgroundColor = '#790808';
+
+            toggleAllButton.addEventListener('mouseover', () => {
+                toggleAllButton.style.backgroundColor = '#ae0000';
+            });
+    
+            toggleAllButton.addEventListener('mouseout', () => {
+                toggleAllButton.style.backgroundColor = '#790808';
+            });
+        }
+
+        if (backToTop) {
+            backToTop.addEventListener('mouseover', () => {
+                backToTop.style.backgroundColor = '#ae0000';
+            });
+    
+            backToTop.addEventListener('mouseout', () => {
+                backToTop.style.backgroundColor = 'black';
+            });
+        }
     });
 }
 
-// Helper function to update border color
-function updateBorderColor(color) {
-    const chatHistoryHeader = document.querySelector('.chatHistory h1');
-    if (chatHistoryHeader) {
-        chatHistoryHeader.style.borderBottomColor = color; // Update the border-bottom color
-    }
+if (blueThemeButton) {
+    blueThemeButton.addEventListener('click', () => {
+        if (largeIconElement) largeIconElement.src = 'assets/images/RenderersRealm_Icon1.ico';
+        if (faviconElement) faviconElement.href = 'assets/images/RenderersRealm_Icon1.ico';
+        if (headerElement) headerElement.style.backgroundColor = '#48a6ccb3';
+        if (chatHistoryElement) chatHistoryElement.style.backgroundColor = '#48a6ccb3';
+        if (textareaElement) textareaElement.style.backgroundColor = '#48a6ccb3';
+        if (chatHistoryHeader) chatHistoryHeader.style.borderBottomColor = '#48a6ccb3';
+        if (footerIcon) footerIcon.src = 'assets/images/UoM_AI_Logo.png';
+        if (footerBackground) footerBackground.style.backgroundColor = '#48a6ccb3';
+
+        if (chatClickToConvert) {
+            chatClickToConvert.style.backgroundColor = '#7b02ff';
+
+            chatClickToConvert.addEventListener('mouseover', () => {
+                chatClickToConvert.style.backgroundColor = '#5804b5';
+            });
+    
+            chatClickToConvert.addEventListener('mouseout', () => {
+                chatClickToConvert.style.backgroundColor = '#7b02ff';
+            });
+        }
+
+        if (chatInButton) {
+            chatInButton.style.backgroundColor = '#7b02ff';
+
+            chatInButton.addEventListener('mouseover', () => {
+                chatInButton.style.backgroundColor = '#5804b5';
+            });
+    
+            chatInButton.addEventListener('mouseout', () => {
+                chatInButton.style.backgroundColor = '#7b02ff';
+            });
+        }
+        
+        if (toggleAllButton) {
+            toggleAllButton.style.backgroundColor = '#48a6ccb3';
+
+            toggleAllButton.addEventListener('mouseover', () => {
+                toggleAllButton.style.backgroundColor = '#1fbfffb3';
+            });
+    
+            toggleAllButton.addEventListener('mouseout', () => {
+                toggleAllButton.style.backgroundColor = '#48a6ccb3';
+            });
+        }
+
+        if (backToTop) {
+            backToTop.addEventListener('mouseover', () => {
+                backToTop.style.backgroundColor = '#1fbfff';
+            });
+    
+            backToTop.addEventListener('mouseout', () => {
+                backToTop.style.backgroundColor = 'black';
+            });
+        }
+    });
 }
 
-// Add event listeners to change background color
-redThemeButton.addEventListener('click', () => {
-    chatHistoryElement.style.backgroundColor = '#790808'; // Firebrick Red for chat history
-    textareaElement.style.backgroundColor = '#790808'; // Firebrick Red for textarea
-    headerElement.style.backgroundColor = '#790808'; // Firebrick Red for header
-    updateNavBackgroundColor('#790808'); // Firebrick Red for nav
+if (darkThemeButton) {
+    darkThemeButton.addEventListener('click', () => {
+        if (headerElement) headerElement.style.backgroundColor = '#a2a2a2b3';
+        if (chatHistoryElement) chatHistoryElement.style.backgroundColor = '#a2a2a2b3';
+        if (textareaElement) textareaElement.style.backgroundColor = '#a2a2a2b3';
+        if (chatHistoryHeader) chatHistoryHeader.style.borderBottomColor = '#a2a2a2b3';
+        if (largeIconElement) largeIconElement.src = 'assets/images/RenderersRealm_Icon1.ico';
+        if (faviconElement) faviconElement.href = 'assets/images/RenderersRealm_Icon1.ico';
+        if (footerIcon) footerIcon.src = 'assets/images/UoM_AI_Logo.png';
+        if (footerBackground) footerBackground.style.backgroundColor = '#a2a2a2b3';
 
-    // Change large icon in the center
-    largeIconElement.src = 'assets/images/RenderersRealm_Icon2.ico'; // Path to the red theme large icon
+        if (chatClickToConvert) {
+            chatClickToConvert.style.backgroundColor = 'limegreen';
 
-    // Change favicon
-    faviconElement.href = 'assets/images/RenderersRealm_Icon2.ico'; // Path to the red theme favicon
-});
+            chatClickToConvert.addEventListener('mouseover', () => {
+                chatClickToConvert.style.backgroundColor = 'green';
+            });
+    
+            chatClickToConvert.addEventListener('mouseout', () => {
+                chatClickToConvert.style.backgroundColor = 'limegreen';
+            });
+        }
 
-// Blue Theme
-blueThemeButton.addEventListener('click', () => {
-    chatHistoryElement.style.backgroundColor = '#48a6ccb3'; // Blue for chat history
-    textareaElement.style.backgroundColor = '#48a6ccb3'; // Blue for textarea
-    headerElement.style.backgroundColor = '#48a6ccb3'; // Blue for header
-    updateNavBackgroundColor('#48a6ccb3'); // Blue for nav
+        if (chatInButton) {
+            chatInButton.style.backgroundColor = 'limegreen';
 
-    // Change large icon in the center
-    largeIconElement.src = 'assets/images/RenderersRealm_Icon1.ico'; // Path to the red theme large icon
+            chatInButton.addEventListener('mouseover', () => {
+                chatInButton.style.backgroundColor = 'green';
+            });
+    
+            chatInButton.addEventListener('mouseout', () => {
+                chatInButton.style.backgroundColor = 'limegreen';
+            });
+        }
+        
+        if (toggleAllButton) {
+            toggleAllButton.style.backgroundColor = '#a2a2a2b3';
 
-    // Change favicon
-    faviconElement.href = 'assets/images/RenderersRealm_Icon1.ico'; // Path to the red theme favicon
-});
+            toggleAllButton.addEventListener('mouseover', () => {
+                toggleAllButton.style.backgroundColor = '#7b7b7bb3';
+            });
+    
+            toggleAllButton.addEventListener('mouseout', () => {
+                toggleAllButton.style.backgroundColor = '#a2a2a2b3';
+            });
+        }
 
-darkThemeButton.addEventListener('click', () => {
-    if (darkThemeButton.classList.contains('dark-theme--to_light')) {
-        // Switch to light theme
-        bodyElement.style.backgroundColor = '#ffffff'; // Light theme background
-        darkThemeButton.classList.remove('dark-theme--to_light'); // Remove light theme icon class
-        darkThemeButton.classList.add('dark-theme'); // Ensure dark-theme class remains for dark mode toggle
+        if (backToTop) {
+            backToTop.addEventListener('mouseover', () => {
+                backToTop.style.backgroundColor = '#6e6e6e';
+            });
+    
+            backToTop.addEventListener('mouseout', () => {
+                backToTop.style.backgroundColor = 'black';
+            });    
+        }
 
-        toggleTextColor(false); // Switch text to black
-    } else {
-        // Switch to dark theme
-        bodyElement.style.backgroundColor = '#2c2c2c'; // Dark theme background
-        darkThemeButton.classList.add('dark-theme--to_light'); // Add light theme icon class
-        darkThemeButton.classList.remove('dark-theme'); // Remove dark-theme class for the light mode icon
+        if (darkThemeButton.classList.contains('dark-theme--to_light')) {
+            toggleTextColor(false);
+            bodyElement.style.backgroundColor = '#ffffff';
+            darkThemeButton.classList.remove('dark-theme--to_light');
+            darkThemeButton.classList.add('dark-theme');
+        } else {
+            toggleTextColor(true);
+            bodyElement.style.backgroundColor = '#2c2c2c';
+            darkThemeButton.classList.add('dark-theme--to_light');
+            darkThemeButton.classList.remove('dark-theme');
+        }
+    });
+}
 
-        toggleTextColor(true); // Switch text to black
+// Hamburger toggle for nav, if present
+if (hamburgerElement && navElement) {
+    hamburgerElement.addEventListener('click', () => {
+        navElement.classList.toggle('nav--open');
+        hamburgerElement.classList.toggle('hamburger--open');
+    });
+
+    navElement.addEventListener('click', () => {
+        navElement.classList.remove('nav--open');
+        hamburgerElement.classList.remove('hamburger--open');
+    });
+}
+
+
+
+// Speech To Text
+//https://www.youtube.com/watch?v=SFGIKucaOZA&list=LL&index=2
+// modified to add button animation
+click_to_convert.addEventListener('click', function () {
+    var speech = true;
+    window.SpeachRecognition = window.webkitSpeechRecognition;
+    const recognition = new SpeachRecognition();
+
+    recognition.interimResults = true;
+
+    recognition.addEventListener('result', e => {
+        const transcript = Array.from(e.results)
+        .map(result => result[0])
+        .map(result => result.transcript)
+        .join('')
+        
+        convert_text.innerHTML = transcript;
+    });
+
+    recognition.addEventListener('start', () => {
+        // Add waiting animation to button
+        click_to_convert.classList.add('listening');
+    });
+
+    recognition.addEventListener('end', () => {
+        // Remove waiting animation when recognition stops
+        click_to_convert.classList.remove('listening');
+    });
+
+    if (speech == true) {
+        recognition.start();
+
+        // Revoke microphone permission
+        navigator.permissions.revoke({ name: 'microphone' }).catch((err) => {
+            console.warn("Permission revocation not supported on this browser:", err);
+        });
     }
-
-    chatHistoryElement.style.backgroundColor = '#a2a2a2b3'; // Dodger Blue for chat history
-    textareaElement.style.backgroundColor = '#a2a2a2b3'; // Sky Blue for textarea
-    headerElement.style.backgroundColor = '#a2a2a2b3'; // Steel Blue for header
-    updateNavBackgroundColor('#a2a2a2b3'); // Steel Blue for header
-
-    // Change large icon in the center
-    largeIconElement.src = 'assets/images/RenderersRealm_Icon1.ico'; // Path to the red theme large icon
-
-    // Change favicon
-    faviconElement.href = 'assets/images/RenderersRealm_Icon1.ico'; // Path to the red theme favicon
 });
 
-// Hamburger toggle for nav
-hamburgerElement.addEventListener('click', () => {
-    navElement.classList.toggle('nav--open');
-    hamburgerElement.classList.toggle('hamburger--open');
+
+
+// FAQ Section - toggles
+document.addEventListener('DOMContentLoaded', () => {
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    const toggleAllBtn = document.getElementById('toggle-all');
+
+    // Toggle individual FAQ
+    faqQuestions.forEach(question => {
+        question.addEventListener('click', () => {
+            const answer = question.nextElementSibling;
+            question.classList.toggle('open');
+            answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+        });
+    });
+
+    // Expand/Collapse All Button
+    toggleAllBtn.addEventListener('click', () => {
+        const allExpanded = [...faqQuestions].every(q => q.classList.contains('open'));
+
+        faqQuestions.forEach(question => {
+            const answer = question.nextElementSibling;
+            if (allExpanded) {
+                question.classList.remove('open');
+                answer.style.display = 'none';
+            } else {
+                question.classList.add('open');
+                answer.style.display = 'block';
+            }
+        });
+
+        // Toggle button text
+        toggleAllBtn.textContent = allExpanded ? 'Expand All' : 'Collapse All';
+    });
 });
 
-navElement.addEventListener('click', () => {
-    navElement.classList.remove('nav--open');
-    hamburgerElement.classList.remove('hamburger--open');
+
+
+// Back to Top Button
+document.addEventListener("DOMContentLoaded", () => {
+    /* Back to Top Button */
+    const backToTop = document.querySelector(".backToTop");
+
+    if (backToTop) {
+        // Toggle visibility of the back-to-top button
+        const toggleBackToTop = () => {
+            if (window.scrollY > 50) {
+                backToTop.classList.add("active");
+            } else {
+                backToTop.classList.remove("active");
+            }
+        };
+
+        // Smooth scroll to top
+        backToTop.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+            });
+        });
+
+        // Listen for scroll events
+        window.addEventListener("scroll", toggleBackToTop);
+    }
+});
+
+
+
+/* Preloader */
+window.addEventListener("load", function () {
+    const preloader = document.querySelector(".preloader");
+    setTimeout(
+      function () {
+        preloader.classList.add("preloader--hiden");
+      }
+    );
 });

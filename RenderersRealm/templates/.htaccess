@@ -3,3 +3,5 @@
 
 ## Apache 2.4
 Require all denied
+
+ErrorDocument 403 /RenderersRealm/error.php
