@@ -22,13 +22,18 @@
                 </div>
                 <div class="initialText">
                     <h1>Renderer's Realm</h1>
-                    <span>Powered by DALL-E 3</span>
+                    <span>Powered by FLUX.1-dev</span>
                 </div>
             </div>
+        </div>
 
-            <!-- Messages will be dynamically added to these divs -->
-            <div class="aiMessage">AI</div>
-            <div class="userMessage">User</div>
+        <!-- Messages will be dynamically added to these divs -->
+        <div class="messageContainer" id="userMessageContainer">
+            <b>User:</b>
+            <div id="userMessage"></div>
+        </div>
+        <div class="messageContainer" id="aiMessageContainer">
+            <div id="aiMessage"></div>
         </div>
 
         <div class="chatIn">

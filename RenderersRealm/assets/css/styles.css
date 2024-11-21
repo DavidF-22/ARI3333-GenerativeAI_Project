@@ -410,7 +410,7 @@ main {
     background-color: green;
 }
 
-.chatIn .chatInputButton{
+.chatIn .chatInputButton {
     background-image: url("../images/paper-plane.png");
 }
 
@@ -481,29 +481,52 @@ main {
 }
 
 /* Messages */
-.userMessage,
-.aiMessage {
-    max-width: 70%;
-    margin: 5px 0;
-    padding: 10px;
-    border-radius: 8px;
+.messageContainer {
+    /* Flexbox layout for alignment */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* Full width */
+    width: 100%;
+    margin: 10px 0;
+    /* Top and bottom padding */
+    padding: 10px 0;
     font-size: 14px;
-    word-wrap: break-word;
+    /* Full-width bottom border */
+    border-bottom: 1px solid #ddd;
+    color: #ffffff;
     display: none;
 }
 
-.aiMessage--active {
-    display: block;
-    align-self: flex-start;
-    background-color: #d1e7ff;
-    color: #000;
+/* User and AI Message Styling */
+#userMessage {
+    flex: 1; /* Take available space */
+    word-wrap: break-word;
+    font-size: 14px;
+    margin-right: 10px; /* Space between user message and image */
+    display: inline-block;
 }
 
-.userMessage--active {
+#aiMessage {
+    flex: 1; /* Take available space */
+    word-wrap: break-word;
+    font-size: 14px;
+    margin-left: 10px; /* Space between image and AI message */
+    text-align: right; /* Align AI messages to the right */
+}
+
+/* AI Image Styling */
+#aiMessage img {
+    /* Center the image */
+    margin: 0 auto;
     display: block;
-    align-self: flex-end;
-    background-color: #f0f0f0;
-    color: #333;
+    /* Responsive width */
+    width: 100%;
+    max-width: 30ex;
+    /* Maintain aspect ratio */
+    height: auto;
+    /* Rounded corners for better visuals */
+    border-radius: 5px;
 }
 
 /* Keyframes for smooth fade-in */
@@ -528,8 +551,10 @@ main {
 
 /* About */
 .about-container {
-    max-width: 150ex; /* Limit the width of the content */
-    margin: 3ex auto; /* Center the container horizontally */
+    max-width: 150ex;
+    /* Limit the width of the content */
+    margin: 3ex auto;
+    /* Center the container horizontally */
     padding: 4ex;
     border-radius: 8px;
     color: white;
@@ -546,7 +571,8 @@ main {
 .about-container span {
     display: block;
     text-justify: auto;
-    margin: 10px 10px 20px 10px; /* Add spacing from the left */
+    margin: 10px 10px 20px 10px;
+    /* Add spacing from the left */
     line-height: 1.6;
     border-bottom: 1px solid #ddd;
 }
@@ -560,7 +586,8 @@ main {
 
 /* Add some spacing between paragraphs */
 .about-container span:last-child {
-    border-bottom: none; /* Remove border from last span */
+    border-bottom: none;
+    /* Remove border from last span */
 }
 
 
@@ -606,7 +633,7 @@ main {
 }
 
 .faq-item {
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #ddd;
     padding: 2ex 0;
     color: white;
 }
@@ -641,7 +668,8 @@ main {
 
 /* Add some spacing between paragraphs */
 .faq-item:last-child {
-    border-bottom: none; /* Remove border from last span */
+    border-bottom: none;
+    /* Remove border from last span */
 }
 
 
