@@ -6,6 +6,11 @@
     /* outline: dashed 1px red; */
 }
 
+html {
+    width: auto;
+    height: 100%;
+}
+
 ul {
     list-style: none;
 }
@@ -231,7 +236,7 @@ body {
     transform: translateY(-7px) rotate(-45deg);
 }
 
-@media (max-width: 880px) {
+@media (max-width: 892px) {
     .nav {
         position: fixed;
         top: 6.4ex;
@@ -279,30 +284,165 @@ main {
     margin-top: 2px;
     overflow-y: auto;
     position: relative;
-    /* For Firefox, make scrollbar thin */
-    scrollbar-width: thin;
+    scrollbar-width: thin; /* For Firefox, make scrollbar thin */
     scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+    font-family: 'Inter', sans-serif;
+}
 
+.chatHistory {
+    width: 70ex;
+    height: 93ex;
+}
+
+@media (max-width: 1530px) {
+    .chatHistory {
+        width: 70ex;
+        height: 71.5ex;
+    }
 }
 
 .chatHistoryContent {
-    padding: 50ex 30ex;
-    /* Adjust padding to fit content */
+    text-align: left; /* Ensure left alignment */
 }
 
-.chatHistory h1 {
+/* Style for the date */
+.json-date {
+    font-weight: bold;
+    margin-top: 0.5ex; /* Add spacing between dates */
+    font-size: 18px;
+    color: white; /* Set a consistent color */
+    margin-top: 0.5ex;
+}
+
+/* Style for the files */
+.jsonFiles {
+    margin-left: 20px; /* Indent files under their respective dates */
+    display: flex;
+    display: inline-block;
+}
+
+/* Base styles for the links */
+.file-link {
+    position: relative; /* Needed for positioning ::before and ::after */
+    text-decoration: none; /* Remove default underline */
+    color: white; /* Default color */
+    transition: color 0.3s ease; /* Smooth color change on hover */
+    display: inline-block; /* Keep links on the same line */
+}
+
+/* Add brackets with ::before and ::after */
+.file-link::before,
+.file-link::after {
+    content: ''; /* Empty content initially */
+    position: absolute; /* Position relative to the link */
+    opacity: 0; /* Invisible by default */
+    transition: opacity 0.3s ease; /* Smoothly transition opacity */
+}
+
+.file-link::before {
+    content: '['; /* Left bracket */
+    left: -0.4em; /* Adjust spacing */
+}
+
+.file-link::after {
+    content: ']'; /* Right bracket */
+    right: -0.4em; /* Adjust spacing */
+}
+
+.file-link:hover::before,
+.file-link:hover::after {
+    opacity: 1; /* Make brackets visible on hover */
+}
+
+
+.json-file img {
+    width: auto; /* Adjust icon size */
+    height: 21px;
+    padding-top: 2px;
+    margin-right: 2px; /* Space between icon and text */
+    padding-left: 0.7ex;
+    margin-top: 2px;
+}
+
+.json-file span {
+    color: white; /* Set a consistent color for file names */
+}
+
+.jsonFiles ul {
+    margin: 0;
+    padding: 0;
+    list-style: none; /* Remove list bullets */
+    font-size: 16px;
+    color: white;
+}
+
+.creationDate h2 {
+    margin-bottom: 10px; /* Add spacing below date */
+    text-align: left; /* Align date to the left */
+}
+
+@media (max-width: 1350px) {
+    .chatHistory {
+        margin-top: 2ex;
+    }
+}
+
+@media (max-width: 1000px) {
+    .chatHistory {
+        margin-top: 3ex;
+    }
+}
+
+@media (max-width: 880px) {
+    .chatHistory {
+        margin-top: 2ex;
+    }
+
+    .chatHistoryContent {
+        width: 60ex;
+        height: 22ex;
+    }
+}
+
+.chatHistory-header {
     /* Fixes the heading at the top */
     position: sticky;
     /* Sticks to the top of the chatHistory */
     top: 0;
     padding: 10px;
     margin: 0;
-    text-align: center;
-    font-size: 18px;
     color: white;
+    font-size: 18px;
     /* Ensure it stays above other content */
     z-index: 1;
     border-bottom: solid 1px white;
+
+    /* Add flexbox */
+    display: flex;
+    gap: 10ex;
+    justify-content: center; /* Vertically align items */
+}
+
+.chatHistory-header h1 {
+    font-size: 20px;
+    margin: 0; /* Remove default margin */
+    padding-top: 0.65ex;
+}
+
+.new-chat {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: rgba(161, 161, 161, 0.702);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 0; /* Remove top margin to align with the heading */
+}
+
+.new-chat:hover {
+    background-color: rgba(170, 170, 170, 0.702);
 }
 
 /* Webkit-based browsers (Chrome, Edge, Safari) */
@@ -480,6 +620,24 @@ main {
     margin: 0;
 }
 
+@media (max-width: 840px) {
+    .initialText h1 {
+        font-size: 25px;
+    }
+
+    .initialText span {
+        font-size: 12px;
+    }
+
+    .chatHistoryContent .creationDate {
+        font-size: 12px;
+    }
+
+    .jsonFiles {
+        font-size: 11px;
+    }
+}
+
 /* Messages */
 .messageContainer {
     /* Flexbox layout for alignment */
@@ -518,11 +676,11 @@ main {
 /* AI Image Styling */
 #aiMessage img {
     /* Center the image */
-    margin: 0 auto;
+    margin: 5ex auto;
     display: block;
     /* Responsive width */
     width: 100%;
-    max-width: 30ex;
+    max-width: 40ex;
     /* Maintain aspect ratio */
     height: auto;
     /* Rounded corners for better visuals */
@@ -537,13 +695,6 @@ main {
 
     to {
         opacity: 1;
-    }
-}
-
-@media (min-width: 880px) {
-    .chatHistoryContent {
-        /* Adjust padding to fit content */
-        padding: 32.8ex 30ex;
     }
 }
 
