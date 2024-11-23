@@ -319,8 +319,11 @@ main {
     position: relative; /* Needed for positioning ::before and ::after */
     text-decoration: none; /* Remove default underline */
     color: white; /* Default color */
+    font-size: 16px;
     transition: color 0.3s ease; /* Smooth color change on hover */
     display: inline-block; /* Keep links on the same line */
+    background-color: transparent;
+    border: none;
 }
 
 .file-link:hover {
@@ -354,7 +357,7 @@ main {
 
 .json-file img {
     width: auto; /* Adjust icon size */
-    height: 21px;
+    height: 23px;
     padding-top: 2px;
     margin-right: 2px; /* Space between icon and text */
     padding-left: 0.7ex;
@@ -679,8 +682,7 @@ main {
     margin: 5ex auto;
     display: block;
     /* Responsive width */
-    width: 100%;
-    max-width: 42ex;
+    width: 45ex;
     /* Maintain aspect ratio */
     height: auto;
     /* Rounded corners for better visuals */
@@ -707,6 +709,28 @@ main {
     #userMessage {
         font-size: 14px
     }
+
+    #aiMessage img {
+        width: 32ex;
+    }
+}
+
+.json-nav-button {
+    border: none;
+    background-color: rgba(162, 162, 162, 0.7);
+    border-radius: 10ex;
+    width: 45px;
+    height: 45px;
+    /* background-image: url("../images/up-arrow-white.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-size: 3.5ex; */
+}
+
+.json-nav-button:hover {
+    background-color: rgba(123, 123, 123, 0.702);
+    cursor: pointer;
 }
 
 

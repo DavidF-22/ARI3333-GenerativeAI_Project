@@ -22,9 +22,7 @@ const newChatButton = document.querySelector('.new-chat');
 const userMessageContainer = document.getElementById('userMessageContainer');
 
 // Declare a variable to store the user-defined file name
-const defaultName = 'default_file_name'; // Default name if user cancels the prompt
-let jsonFileName = '' || defaultName; // Default name if user cancels the prompt
-
+let jsonFileName = ''
 
 if (newChatButton) {
     newChatButton.addEventListener("click", () => {
@@ -36,12 +34,28 @@ if (newChatButton) {
 
 // * ############################################################################################################## * //
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 // Prompt the user for the file name at the start of the session
 function promptForFileName(message) {
+    const defaultName = 'Ex: Chatbot_Conversation';
     const userProvidedName = prompt(message, defaultName);
     jsonFileName = userProvidedName.trim();
 
-    console.log('JSON file name:', jsonFileName);
+    // prepareation for appending in new file
+
+    if (userOut && aiImgOut) {
+        // Emptry userInpu and aiOut containers
+        userOut.textContent = '';
+        aiImgOut.innerHTML = '';
+
+        // display initial content and hide chat containers
+        userMessageContainer.style.display = "none";
+        aiMessageContainer.style.display = "none";
+        initialContent.style.display = "block";
+    }
 }
 
 // Helper function to get the current date in 'YYYY-MM-DD' format
@@ -74,6 +88,15 @@ function toggleTextColor(isLightMode) {
     if (userMessageContainer) {
         userMessageContainer.style.color = isLightMode ? 'black' : 'white';
     }
+}
+
+function blobToBase64(blob) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+    });
 }
 
 // * ############################################################################################################## * //
@@ -206,7 +229,7 @@ function initializeTheme() {
     // saveThemeToLocalStorage(''); // set to default
     const savedTheme = localStorage.getItem('selectedTheme');
     applyTheme(savedTheme);
-    console.log(savedTheme);
+    console.log("Current Theme: " + savedTheme);
 }
 
 document.addEventListener('DOMContentLoaded', initializeTheme());
@@ -259,13 +282,30 @@ if (hamburgerElement && navElement) {
 // Function to save data to JSON file
 async function saveToJSON(userInput, aiImageUrl) {
     if (!jsonFileName) {
-        console.error("JSON file name is not set.");
+        console.error("No active JSON file. Please select or create a file.");
         return;
     }
 
-    const currentDate = getCurrentDate(); // Get current date
+    const currentDate = getCurrentDate(); // Get the current date
+    const fileName = `${jsonFileName}.json`; // Use the current file name
 
     try {
+        // Fetch existing file content
+        const existingDataResponse = await fetch(`assets/json/${currentDate}/${fileName}`);
+        let existingData = [];
+        if (existingDataResponse.ok) {
+            existingData = await existingDataResponse.json();
+        } else {
+            console.log("No existing data found. Creating a new file.");
+
+            // Create the directory if it doesn't exist
+        }
+
+        // Append the new data
+        const newEntry = { userInput, aiImageUrl, timestamp: new Date().toISOString() };
+        existingData.push(newEntry);
+
+        // Save updated data back to the server
         const response = await fetch('save_to_json.php', {
             method: 'POST',
             headers: {
@@ -273,9 +313,8 @@ async function saveToJSON(userInput, aiImageUrl) {
             },
             body: JSON.stringify({
                 date: currentDate,
-                fileName: `${jsonFileName}.json`,
-                userInput: userInput,
-                aiImageUrl: aiImageUrl,
+                fileName,
+                data: existingData, // Send the updated array
             }),
         });
 
@@ -286,7 +325,7 @@ async function saveToJSON(userInput, aiImageUrl) {
         const result = await response.json();
         console.log('Data saved successfully:', result);
     } catch (error) {
-        console.error('Error saving data to JSON:', error);
+        console.error("Error appending data to JSON file:", error);
     }
 }
 
@@ -328,7 +367,7 @@ async function fetchAndDisplayFiles() {
                     fileItem.classList.add('json-file'); // Add a common class
                     fileItem.innerHTML = `
                         <img src="${jsonFileIcon}" alt="icon_file">
-                        <a href="${filePath}" target="_blank" class="file-link">${fileNameWithoutExtension}</a>
+                        <button data_img_path="${filePath}" target="_blank" class="file-link">${fileNameWithoutExtension}</button>
                     `;
                     fileListElement.appendChild(fileItem);
                 });
@@ -401,7 +440,7 @@ const initialContent = document.getElementById("initialContent");
 
 // Check if all necessary elements exist
 if (chatInButton && textareaElement && userOut && initialContent) {
-    const token = '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';
+    const token = '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';
 
     // Query the API
     async function query(inputText) {
@@ -436,21 +475,20 @@ if (chatInButton && textareaElement && userOut && initialContent) {
     }
 
     // Handle user input
-    function handleInput() {
-        const inputText = textareaElement.value.trim(); // Get and trim input
+    async function handleInput() {
+        const inputText = textareaElement.value.trim();
         if (inputText !== "") {
             textareaElement.value = ""; // Clear input field
-            query(inputText).then((response) => {
-                if (response) {
-                    // Display AI-generated content
-                    const objectURL = URL.createObjectURL(response);
-                    aiImgOut.innerHTML = `<img src="${objectURL}" alt="AI Output" />`;
-
-                    // Save user input and AI output to JSON
-                    saveToJSON(inputText, objectURL).then(() => {
-                        // Fetch and display updated JSON files after saving is successful
+            query(inputText).then(async (responseBlob) => {
+                if (responseBlob) {
+                    const base64Image = await blobToBase64(responseBlob); // Convert Blob to Base64
+    
+                    aiImgOut.innerHTML = `<img src="${base64Image}" alt="AI Output" />`;
+    
+                    // Save to JSON
+                    saveToJSON(inputText, base64Image).then(() => {
                         fetchAndDisplayFiles();
-                    })
+                    });
                 }
             });
         }
@@ -463,7 +501,73 @@ if (chatInButton && textareaElement && userOut && initialContent) {
     textareaElement.addEventListener("keydown", (event) => {
         if (event.key === "Enter" && event.shiftKey) {
             event.preventDefault(); // Prevent adding a new line
+
+            if (!jsonFileName) {
+                alert("File name is not set yet");
+                sleep(ms = 250).then(() => { promptForFileName("Enter a name for the JSON file: "); });
+                return;
+            }
+
             handleInput();
+        }
+    });
+}
+
+// * ############################################################################################################## * //
+
+// Click and Load
+
+if (window.location.pathname.endsWith('index.php')) {
+    // Attach click event listener to buttons with the 'file-link' class
+    document.addEventListener("click", async (event) => {
+        const button = event.target.closest(".file-link");
+        if (button) {
+            const filePath = button.getAttribute("data_img_path");
+            console.log("Fetching JSON file from:", filePath); // Debug file path
+
+            if (!filePath) {
+                console.error("File path not found in data attribute.");
+                return;
+            }
+
+            try {
+                // Reset json file list
+                fetchAndDisplayFiles();
+                
+                // Extract file name from filePath and update jsonFileName
+                const fileName = filePath.split('/').pop().replace('.json', '');
+                jsonFileName = fileName; // Update the global file name
+                console.log("Active JSON file name set to:", jsonFileName);
+
+                // Fetch the JSON file to display its content
+                const response = await fetch(filePath);
+                if (!response.ok) {
+                    throw new Error("Failed to fetch the JSON file.");
+                }
+
+                const data = await response.json();
+
+                // Reverse the data array to bring the newest entry to the top
+                const reversedData = data.reverse();
+
+                // Hide the initial content and show the chat containers
+                if (initialContent) {
+                    initialContent.style.display = "none";
+                }
+                if (userMessageContainer) {
+                    userMessageContainer.style.display = "block";
+                }
+                if (aiMessageContainer) {
+                    aiMessageContainer.style.display = "block";
+                }
+
+                // Display the last entry in the JSON file
+                const mostRecentEntry  = reversedData[0]; // Get the most recent entry
+                userOut.textContent = mostRecentEntry .userInput || "No user input found.";
+                aiImgOut.innerHTML = mostRecentEntry .aiImageUrl ? `<img src="${mostRecentEntry .aiImageUrl}" alt="AI Output" />` : "No AI output image found.";
+            } catch (error) {
+                console.error("Error fetching or processing JSON file:", error);
+            }
         }
     });
 }
