@@ -294,13 +294,6 @@ main {
     height: 93ex;
 }
 
-@media (max-width: 1530px) {
-    .chatHistory {
-        width: 70ex;
-        height: 71.5ex;
-    }
-}
-
 .chatHistoryContent {
     text-align: left; /* Ensure left alignment */
 }
@@ -328,6 +321,10 @@ main {
     color: white; /* Default color */
     transition: color 0.3s ease; /* Smooth color change on hover */
     display: inline-block; /* Keep links on the same line */
+}
+
+.file-link:hover {
+    cursor: pointer; /* Lighten color on hover */
 }
 
 /* Add brackets with ::before and ::after */
@@ -648,7 +645,7 @@ main {
     width: 100%;
     margin: 10px 0;
     /* Top and bottom padding */
-    padding: 10px 0;
+    padding: 5px 0;
     font-size: 14px;
     /* Full-width bottom border */
     border-bottom: 1px solid #ddd;
@@ -660,15 +657,18 @@ main {
 #userMessage {
     flex: 1; /* Take available space */
     word-wrap: break-word;
-    font-size: 14px;
     margin-right: 10px; /* Space between user message and image */
     display: inline-block;
+}
+
+#userMessageContainer {
+    font-size: 18px;
 }
 
 #aiMessage {
     flex: 1; /* Take available space */
     word-wrap: break-word;
-    font-size: 14px;
+    font-size: 18px;
     margin-left: 10px; /* Space between image and AI message */
     text-align: right; /* Align AI messages to the right */
 }
@@ -680,7 +680,7 @@ main {
     display: block;
     /* Responsive width */
     width: 100%;
-    max-width: 40ex;
+    max-width: 42ex;
     /* Maintain aspect ratio */
     height: auto;
     /* Rounded corners for better visuals */
@@ -695,6 +695,17 @@ main {
 
     to {
         opacity: 1;
+    }
+}
+
+@media (max-width: 1530px) {
+    .chatHistory {
+        width: 70ex;
+        height: 71.3ex;
+    }
+
+    #userMessage {
+        font-size: 14px
     }
 }
 

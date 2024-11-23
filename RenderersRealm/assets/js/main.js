@@ -22,7 +22,8 @@ const newChatButton = document.querySelector('.new-chat');
 const userMessageContainer = document.getElementById('userMessageContainer');
 
 // Declare a variable to store the user-defined file name
-let jsonFileName = '';
+const defaultName = 'default_file_name'; // Default name if user cancels the prompt
+let jsonFileName = '' || defaultName; // Default name if user cancels the prompt
 
 
 if (newChatButton) {
@@ -37,9 +38,10 @@ if (newChatButton) {
 
 // Prompt the user for the file name at the start of the session
 function promptForFileName(message) {
-    const defaultName = "default_file"; // Default name if user cancels the prompt
     const userProvidedName = prompt(message, defaultName);
-    jsonFileName = userProvidedName ? userProvidedName.trim() : defaultName;
+    jsonFileName = userProvidedName.trim();
+
+    console.log('JSON file name:', jsonFileName);
 }
 
 // Helper function to get the current date in 'YYYY-MM-DD' format
@@ -399,7 +401,7 @@ const initialContent = document.getElementById("initialContent");
 
 // Check if all necessary elements exist
 if (chatInButton && textareaElement && userOut && initialContent) {
-    const token = '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';
+    const token = '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';
 
     // Query the API
     async function query(inputText) {
