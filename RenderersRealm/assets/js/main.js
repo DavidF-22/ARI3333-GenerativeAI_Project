@@ -70,7 +70,7 @@ function getCurrentDate() {
 
 // Helper function to toggle text color
 function toggleTextColor(isLightMode) {
-    const textElements = document.querySelectorAll('h1, h2, span, p, a, .logo, button, .json-date, .file-link');
+    const textElements = document.querySelectorAll('h1, h2, h3, ol, ul, span, p, a, .logo, button, .json-date, .file-link');
 
     textElements.forEach((el) => {
         if (isLightMode) {
