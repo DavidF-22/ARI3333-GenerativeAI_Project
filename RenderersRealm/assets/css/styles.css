@@ -715,22 +715,55 @@ main {
     }
 }
 
+.json-nav-buttons {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    justify-content: center; /* Center buttons vertically */
+    align-items: center; /* Center buttons horizontally */
+    position: relative;
+    height: 100%; /* Make sure the container spans the available height */
+}
+
 .json-nav-button {
+    margin: 5px 0; /* Add some spacing between the buttons */
     border: none;
     background-color: rgba(162, 162, 162, 0.7);
-    border-radius: 10ex;
-    width: 45px;
-    height: 45px;
-    /* background-image: url("../images/up-arrow-white.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    background-size: 3.5ex; */
+    border-radius: 50%; /* Make buttons circular */
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center the icon inside the button */
+    cursor: pointer;
+    margin-right: 1.5ex;
+    transition: background-color 0.3s ease;
 }
 
 .json-nav-button:hover {
-    background-color: rgba(123, 123, 123, 0.702);
-    cursor: pointer;
+    background-color: rgba(123, 123, 123, 0.7);
+}
+
+.json-nav-button img {
+    width: 2rem;
+    height: 2rem;
+}
+
+#json-prev {
+    margin-top: 40ex;
+}
+
+#json-next {
+    margin-top: 5ex;
+}
+
+#json-next img {
+    transform: rotate(180deg);
+}
+
+@media (max-width: 1530px) {
+    #json-prev {
+        margin-top: 30ex;
+    }
 }
 
 
@@ -923,11 +956,11 @@ main {
     right: 15px;
     bottom: 15px;
     z-index: 15;
-    background-color: rgb(0, 0, 0);
+    background-color: rgba(162, 162, 162);
     border-radius: 10ex;
     width: 45px;
     height: 45px;
-    background-image: url("../images/up-arrow-white.png");
+    background-image: url("../images/up-arrow-black.png");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -935,8 +968,8 @@ main {
 }
 
 .backToTop:hover {
-    background-color: rgb(110, 110, 110);
-    background-image: url("../images/up-arrow-black.png");
+    background-color: rgb(0, 0, 0);
+    background-image: url("../images/up-arrow-white.png");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

@@ -18,8 +18,9 @@ const footerBackground = document.querySelector('.footer'); // Footer background
 const toggleAllButton = document.querySelector('.toggle-all-btn');
 const backToTop = document.querySelector('.backToTop');
 const newChatButton = document.querySelector('.new-chat');
-
 const userMessageContainer = document.getElementById('userMessageContainer');
+const jsonPrevArrow = document.querySelector('#json-prev img');
+const jsonNextArrow = document.querySelector('#json-next img');
 
 // Declare a variable to store the user-defined file name
 let jsonFileName = ''
@@ -189,7 +190,19 @@ function applyTheme(themeName) {
     if (footerBackground) footerBackground.style.backgroundColor = theme.footerBackground;
     if (bodyElement) bodyElement.style.backgroundColor = theme.bodyColor;
 
-    
+    // Update arrow images based on theme
+    if (jsonPrevArrow && jsonNextArrow) {
+        const lightArrow = 'assets/images/up-arrow-black.png';
+        const darkArrow = 'assets/images/up-arrow-white.png';
+
+        if (themeName === 'light') {
+            jsonPrevArrow.src = lightArrow;
+            jsonNextArrow.src = lightArrow;
+        } else {
+            jsonPrevArrow.src = darkArrow;
+            jsonNextArrow.src = darkArrow;
+        }
+    }
 
     // Apply button-specific styles
     const buttonConfig = [
@@ -571,6 +584,110 @@ if (window.location.pathname.endsWith('index.php')) {
         }
     });
 }
+
+// Global variables to track the current JSON data and index
+let currentJsonData = []; // Holds the current JSON file's data
+let currentIndex = 0; // Tracks the current entry index
+
+// Function to display a JSON entry at a specific index
+function displayJsonEntry(index) {
+    if (!currentJsonData || currentJsonData.length === 0) {
+        console.error("No JSON data loaded.");
+        return;
+    }
+
+    // Handle index bounds
+    if (index < 0 || index >= currentJsonData.length) {
+        console.error("Index out of bounds.");
+        return;
+    }
+
+    // Update the current index
+    currentIndex = index;
+
+    // Get the entry at the current index
+    const entry = currentJsonData[index];
+
+    // Display the entry in the appropriate containers
+    if (userOut) {
+        userOut.textContent = entry.userInput || "No user input found.";
+    }
+    if (aiImgOut) {
+        aiImgOut.innerHTML = entry.aiImageUrl
+            ? `<img src="${entry.aiImageUrl}" alt="AI Output" />`
+            : "No AI output image found.";
+    }
+}
+
+// Event listeners for navigation buttons
+const jsonPrevButton = document.querySelector('#json-prev');
+const jsonNextButton = document.querySelector('#json-next');
+
+if (jsonPrevButton) {
+    jsonPrevButton.addEventListener('click', () => {
+        // Navigate to the previous entry
+        if (currentJsonData.length > 0) {
+            const newIndex = currentIndex - 1;
+            if (newIndex >= 0) {
+                displayJsonEntry(newIndex);
+            } else {
+                alert("Already at the most recent entry.");
+            }
+        }
+    });
+}
+
+if (jsonNextButton) {
+    jsonNextButton.addEventListener('click', () => {
+        // Navigate to the next entry
+        if (currentJsonData.length > 0) {
+            const newIndex = currentIndex + 1;
+            if (newIndex < currentJsonData.length) {
+                displayJsonEntry(newIndex);
+            } else {
+                alert("Already at the last entry.");
+            }
+        }
+    });
+}
+
+// Function to load JSON data from a selected file and display the most recent entry
+async function loadJsonFile(filePath) {
+    try {
+        // Fetch the JSON file
+        const response = await fetch(filePath);
+        if (!response.ok) {
+            throw new Error("Failed to fetch JSON file.");
+        }
+
+        // Parse the JSON data
+        const data = await response.json();
+
+        // Reverse the data to display the newest entry first
+        currentJsonData = data.reverse();
+
+        // Display the most recent entry
+        if (currentJsonData.length > 0) {
+            displayJsonEntry(0); // Start at index 0
+        } else {
+            console.log("No entries found in the JSON file.");
+        }
+    } catch (error) {
+        console.error("Error loading JSON file:", error);
+    }
+}
+
+// Add an event listener to the file links to load the selected JSON file
+document.addEventListener('click', async (event) => {
+    const button = event.target.closest('.file-link');
+    if (button) {
+        const filePath = button.getAttribute('data_img_path');
+        console.log("Loading JSON file:", filePath);
+
+        // Load the selected JSON file
+        await loadJsonFile(filePath);
+    }
+});
 
 // * ############################################################################################################## * //
 
