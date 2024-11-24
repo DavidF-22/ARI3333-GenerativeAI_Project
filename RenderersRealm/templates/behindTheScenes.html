@@ -1,99 +1,439 @@
 {% extends "layout.html" %}
 
 {% block header %}
-{% include "header.html"%}
+{% include "header.html" %}
 {% endblock %}
 
 {% block content %}
 <div class="behind-the-scenes-container">
     <h1>Behind the Scenes</h1>
+
     <p>
-        Renderer’s Realm is a cutting-edge platform that merges AI with user-friendly web design. This page outlines the underlying processes that make the website function, including data flow, architecture, and the API integration.
+        Renderer’s Realm is a cutting-edge platform that merges AI with user-friendly web design. This page outlines the
+        underlying processes that make the website function, including setup, data flow, architecture, and API
+        integration.
     </p>
 
-    <h2>System Workflow</h2>
-    <p>The platform follows a well-defined workflow:</p>
+    <h2>How to Set Up</h2>
+
+    <p>Follow these steps to configure Renderer’s Realm on your local environment:</p>
+
     <ol>
-        <li>Users interact with the interface, entering text prompts or using voice input.</li>
-        <li>The input is processed client-side using JavaScript.</li>
-        <li>The processed input is sent to the Hugging Face API for image generation (<code>black-forest-labs/FLUX.1-dev</code>).</li>
-        <li>The API response (an image) is rendered dynamically on the page.</li>
-        <li>The data, including the input and image, is stored in JSON format for reference.</li>
+        <li>
+            <strong>Install XAMPP:</strong> Download XAMPP from <a
+                href="https://www.apachefriends.org">apachefriends.org</a> and install it. Ensure the Apache service is
+            running during installation.
+            <br><br>
+        </li>
+
+        <li>
+            <strong>Modification:</strong> Find the <code>htdocs</code> directory that XAMPP creates automatically and
+            add a php directory. Your file path should look similar to this:
+            <pre><code>C:\xampp\htdocs\php\</code></pre>
+        </li>
+
+        <li>
+            <strong>Project Placement:</strong> Move the entire project folder to the newly created <code>php</code>
+            directory in the XAMPP installation folder. For example:
+            <pre><code>C:\xampp\htdocs\php\RenderersRealm</code></pre>
+        </li>
+
+        <li>
+            <strong>Run Apache Server:</strong> Start Apache via the XAMPP Control Panel.
+            <br><br>
+        </li>
+
+        <li>
+            <strong>Create a Hugging Face API Key:</strong> To generate a personal API key, visit
+            <a href="https://huggingface.co/settings/tokens" target="_blank">Hugging Face Token Settings</a>. Click on
+            the
+            <strong>+ Create New Token</strong> button, then switch the permissions from <strong>Fine-grained</strong>
+            to
+            <strong>Read</strong>. After selecting the appropriate permissions, click the
+            <strong>Create Token</strong> button. Copy the generated API key and replace
+            <code>__YourAPIKeyHere__</code> in the code with your key.
+            <pre><code>const token = '__YourAPIKeyHere__'; // Replace with your API key</code></pre>
+            This is what it should look like
+            <pre><code>const token = 'hf_exampleToken12345';</code></pre>
+
+            <strong style="color: red !important;">IMPORTANT: Please ensure you keep your API key private. Thank
+                you.</strong>
+
+            <br><br>
+        </li>
+        <li>
+            <strong>Access the Website:</strong> Open a browser and navigate to
+            <code>http://localhost/php/RenderersRealm/index.php</code>.
+        </li>
     </ol>
 
-    <h2>Key Technologies</h2>
-    <p>This platform uses the following technologies:</p>
+    <h2>System Workflow</h2>
+
+    <p>Renderer’s Realm operates through the following workflow:</p>
+
+    <ol>
+        <li>Users input prompts via text or voice commands on the interface.</li>
+
+        <li>JavaScript processes the input on the client side and sends it to the backend.</li>
+
+        <li>
+            The Hugging Face API <a
+                href="https://huggingface.co/black-forest-labs/FLUX.1-dev"><code>black-forest-labs/FLUX.1-dev</code></a>
+            generates an image based on the prompt.
+        </li>
+
+        <li>The generated image is dynamically rendered on the webpage.</li>
+
+        <li>
+            The prompt and image (in Base64 format) are stored in JSON files for reference. These files can be accessed
+            locally from:
+            <pre><code>C:\xampp\htdocs\php\RenderersRealm\assets\json</code></pre>
+        </li>
+    </ol>
+
+    <h2>Key Features</h2>
+
+    <p>The platform incorporates several key features:</p>
+
     <ul>
-        <li><strong>Front-End:</strong> HTML, CSS, JavaScript.</li>
-        <li><strong>Back-End:</strong> PHP scripts for JSON file handling and API requests.</li>
-        <li><strong>AI Integration:</strong> Hugging Face model for generating images based on user input.</li>
+        <li>
+            <strong>Interactive Chat Interface:</strong> Allows users to input prompts with keyboard or speech-to-text.
+            (Permission is Needed for this feature)
+        </li>
+
+        <li><strong>Theme Customization:</strong> Supports red, blue, and light/dark themes for user preferences.</li>
+
+        <li><strong>JSON-Based Logs:</strong> Chat history is stored locally in JSON files for user reference.</li>
+
+        <li><strong>Speech-to-Text:</strong> Enables voice input for added convenience.</li>
     </ul>
 
-    <h2>Example Code Snippets</h2>
+    <h2>A Deeper Look</h2>
+
     <h3>1. API Integration</h3>
+
+    <p>
+        The following JavaScript code demonstrates how this webpage interacts with an AI-powered API to generate outputs
+        based on user input. It is structured to ensure all necessary HTML elements exist before proceeding, handles
+        user input, communicates with an API, and displays the results dynamically.
+    </p>
+
     <pre><code class="language-js">
-async function query(inputText) {
-    const response = await fetch(
-        "https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-dev",
-        {
-            headers: { Authorization: `Bearer ${token}` },
-            method: "POST",
-            body: JSON.stringify({ inputs: inputText }),
+        // Check if all necessary elements exist
+        if (chatInButton && textareaElement && userOut && initialContent) {
+            const token = '__YourAPIKeyHere__'; // Replace with your API key
+        
+            // Query the API
+            async function query(inputText) {
+                // Hide the initial content
+                initialContent.style.display = "none";
+        
+                // Display user message
+                userMessageContainer.style.display = "block";
+                userOut.innerHTML = inputText;
+        
+                // Display loading state for AI
+                aiMessageContainer.style.display = "block";
+                aiImgOut.innerHTML = `&lt;img src="assets/images/loading.gif" alt="Loading..." /&gt;`;
+
+                 // Display json nav buttons
+                jsonNavButtons.forEach(button => {
+                    button.style.display = "block";
+                });
+        
+                // API call
+                const response = await fetch(
+                    "https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-dev",
+                    {
+                        headers: { Authorization: `Bearer ${token}` },
+                        method: "POST",
+                        body: JSON.stringify({ inputs: inputText }), // Proper format for API request
+                    }
+                );
+        
+                // Handle response
+                if (!response.ok) {
+                    throw new Error("API request failed");
+                }
+        
+                const result = await response.blob();
+                return result;
+            }
+        
+            // Handle user input
+            async function handleInput() {
+                const inputText = textareaElement.value.trim();
+                if (inputText !== "") {
+                    textareaElement.value = ""; // Clear input field
+                    query(inputText).then(async (responseBlob) => {
+                        if (responseBlob) {
+                            const base64Image = await blobToBase64(responseBlob); // Convert Blob to Base64
+            
+                            aiImgOut.innerHTML = `&lt;img src="${base64Image}" alt="AI Output" /&gt;`;
+            
+                            // Save to JSON
+                            saveToJSON(inputText, base64Image).then(() => {
+                                fetchAndDisplayFiles();
+                            });
+                        }
+                    });
+                }
+            }
+        
+            // Event listener for button click
+            chatInButton.addEventListener("click", handleInput);
+        
+            // Event listener for Shift + Enter key press
+            textareaElement.addEventListener("keydown", (event) => {
+                if (event.key === "Enter" && event.shiftKey) {
+                    event.preventDefault(); // Prevent adding a new line
+        
+                    if (!jsonFileName) {
+                        alert("File name is not set yet");
+                        sleep(ms = 250).then(() => { promptForFileName("Enter a name for the JSON file: "); });
+                        return;
+                    }
+        
+                    handleInput();
+                }
+            });
         }
-    );
-
-    if (!response.ok) {
-        throw new Error("API request failed");
-    }
-
-    const result = await response.blob();
-    return result;
-}
     </code></pre>
+
+    <p>
+        First, the code checks whether all necessary elements exist in the DOM. These include the
+        <code>chatInButton</code>, which is the button for submitting user input; <code>textareaElement</code>, where
+        the user types their prompt; <code>userOut</code>, a container for displaying the user's input; and
+        <code>initialContent</code>, which typically represents an initial welcome message or interface. If any of these
+        elements are missing, the subsequent logic will not execute, ensuring that errors are avoided.
+    </p>
+    <p>
+        <br>A constant, <code>token</code>, is defined, representing the authentication key needed to interact with the
+        Hugging Face API. This token is required for making API requests securely. The <code>query</code> function is
+        then defined as an asynchronous function responsible for communicating with the API. It begins by hiding the
+        <code>initialContent</code> to clear the screen and dynamically displays the user’s input in the
+        <code>userOut</code> container. At the same time, a loading animation is displayed to inform the user that the
+        system is processing their input.
+    </p>
+    <p>
+        <br>The <code>fetch</code> function is used to send the input to the Hugging Face API. The request includes the
+        authorization token in the headers and the user’s input, formatted as a JSON object, in the body of a POST
+        request. If the response from the API indicates a failure, an error is thrown. However, if the response is
+        successful, the result is returned as a Blob, which is a binary representation of the generated output (such as
+        an image).
+    </p>
+    <p>
+        <br>The <code>handleInput</code> function processes the user’s input from the <code>textareaElement</code>. It
+        trims
+        unnecessary whitespace and ensures the input is not empty before sending it to the <code>query</code> function.
+        Once the API responds with a Blob, it is converted into a Base64 string that can be displayed as an image
+        directly in the webpage. Additionally, the input and output (the generated image) are saved locally in a JSON
+        file using a separate function, <code>saveToJSON</code>. After saving, the <code>fetchAndDisplayFiles</code>
+        function updates the user interface to reflect the new data.
+    </p>
+    <p>
+        <br>Event listeners are added to improve user interaction. The first event listener triggers the
+        <code>handleInput</code> function when the user clicks the submit button. The second event listener is attached
+        to the <code>textareaElement</code>, allowing the user to submit their input using the keyboard shortcut
+        <code>Shift + Enter</code>. This ensures that newline characters are not added inadvertently and provides a
+        smooth interaction experience. If a JSON file name is not set, the user is prompted to provide one before
+        proceeding.
+    </p>
 
     <h3>2. Data Storage</h3>
-    <pre><code class="language-js">
-async function saveToJSON(userInput, aiImageUrl) {
-    const newEntry = { userInput, aiImageUrl, timestamp: new Date().toISOString() };
-    existingData.push(newEntry);
 
-    await fetch('save_to_json.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ date: getCurrentDate(), fileName, data: existingData }),
-    });
-}
+    <p>
+        This PHP script processes JSON data sent from the frontend and saves it to a file in a structured directory. It
+        validates the data, dynamically creates directories, and provides feedback about the success or failure of
+        the operation.
+    </p>
+
+    <pre><code class="language-php">
+        &lt;?php
+        header('Content-Type: application/json');
+        
+        // Get the POST data
+        $data = json_decode(file_get_contents('php://input'), true);
+        if (!$data) {
+            http_response_code(400);
+            echo json_encode(['error' =&gt; 'Invalid input']);
+            exit;
+        }
+        
+        // Extract the date, file name, and the full JSON data array (from JavaScript)
+        $date = $data['date'] ?? null;
+        $fileName = $data['fileName'] ?? 'default.json'; // Default file name
+        $jsonData = $data['data'] ?? null; // The full array of JSON data from JavaScript
+        
+        if (!$date || !$fileName || !$jsonData) {
+            http_response_code(400);
+            echo json_encode(['error' =&gt; 'Missing data']);
+            exit;
+        }
+        
+        // Define the directory and file paths
+        $baseDir = __DIR__ . '/assets/json';
+        $dateDir = $baseDir . '/' . $date;
+        $jsonFile = $dateDir . '/' . $fileName;
+        
+        // Create the directory if it doesn't exist
+        if (!file_exists($dateDir)) {
+            mkdir($dateDir, 0777, true);
+        }
+        
+        // Save the data array to the file
+        if (file_put_contents($jsonFile, json_encode($jsonData, JSON_PRETTY_PRINT))) {
+            http_response_code(200);
+            echo json_encode(['success' =&gt; true, 'file' =&gt; $jsonFile]);
+        } else {
+            http_response_code(500);
+            echo json_encode(['error' =&gt; 'Failed to save the file']);
+        }
+        ?&gt;
     </code></pre>
 
-    <h2>Data Flow and Accessibility</h2>
     <p>
-        Data flow is managed via JavaScript and PHP:
+        The script begins by setting the content type of the HTTP response to <code>application/json</code>. This
+        ensures that any response sent back to the client is in JSON format. It then retrieves the incoming data from
+        the <code>php://input</code> stream and decodes it into a PHP associative array. If the data cannot be decoded
+        or is missing, the script sends an HTTP 400 (Bad Request) response with an error message and terminates further
+        execution.
     </p>
-    <ul>
-        <li>Input data is collected from the user interface and passed to the server.</li>
-        <li>The PHP script (<code>save_to_json.php</code>) stores the data in organized JSON files.</li>
-        <li>The <code>get_json_files.php</code> script fetches stored data for display in the "Chat Logs" section.</li>
-    </ul>
     <p>
-        Users can access their data through the chat logs, ensuring transparency and traceability.
+        <br>Once the data is successfully decoded, the script extracts three key pieces of information:
+        <code>date</code>,
+        <code>fileName</code>, and <code>jsonData</code>. The <code>date</code> is used to organize files into
+        subdirectories, the <code>fileName</code> represents the name of the JSON file to be saved (defaulting to
+        <code>default.json</code> if not provided), and <code>jsonData</code> contains the full array of data to be
+        written into the file. If any of these three values are missing, the script again returns a 400 error and stops
+        execution.
+    </p>
+    <p>
+        <br>The script then defines the paths for the base directory (<code>assets/json</code>), the subdirectory named
+        after the date, and the target JSON file. If the subdirectory does not already exist, the <code>mkdir</code>
+        function is used to create it, with permissions set to <code>0777</code> to allow full read, write, and execute
+        access.
+    </p>
+    <p>
+        <br>Finally, the script attempts to save the data to the target file using <code>file_put_contents</code>. The
+        data
+        is encoded into JSON format with <code>JSON_PRETTY_PRINT</code> to make the file human-readable. If the file is
+        successfully written, a 200 (OK) response is sent back to the client, along with the path to the saved file. If
+        the operation fails, a 500 (Internal Server Error) response is returned, indicating that the file could not be
+        saved.
+    </p>
+
+    <h3>3. Data Retrieval</h3>
+
+    <p>
+        This PHP script scans a specified directory for subdirectories and JSON files, organising the results into an
+        associative array and returning them in JSON format. It is designed to provide a structured overview of files
+        stored in a hierarchical directory structure.
+    </p>
+
+    <pre><code class="language-php">
+        &lt;?php
+        header('Content-Type: application/json');
+
+        // Path to the JSON folder
+        $jsonDir = './assets/json';
+
+        if (!is_dir($jsonDir)) {
+            echo json_encode(["error" =&gt; "Invalid directory path"]);
+            exit;
+        }
+
+        $result = [];
+
+        // Scan the directory for subdirectories and files
+        $subDirs = array_filter(glob($jsonDir . '/*'), 'is_dir');
+
+        foreach ($subDirs as $subDir) {
+            $date = basename($subDir); // Subdirectory name as the date
+            $files = array_filter(scandir($subDir), function ($file) use ($subDir) {
+                return is_file($subDir . '/' . $file) &amp;&amp; pathinfo($file, PATHINFO_EXTENSION) === 'json';
+            });
+            $result[$date] = array_values($files); // Add files under the respective date
+        }
+
+        echo json_encode($result);
+        ?&gt;
+    </code></pre>
+
+    <p>
+        The script begins by setting the HTTP response header to <code>application/json</code>, ensuring that the client
+        receives the response in JSON format. The variable <code>$jsonDir</code> is defined to represent the path to the
+        base directory containing JSON files and subdirectories. If the specified directory does not exist, the script
+        immediately terminates execution and returns a JSON-encoded error message indicating an invalid directory path.
+    </p>
+    <p>
+        <br>An empty array, <code>$result</code>, is initialized to store the organized file information. Using the
+        <code>glob</code> function combined with <code>array_filter</code>, the script scans the base directory for
+        subdirectories. Each subdirectory is treated as a collection of files associated with a specific date, where the
+        subdirectory name serves as the date identifier.
+    </p>
+    <p>
+        <br>The script iterates over each subdirectory using a <code>foreach</code> loop. Within the loop, the
+        <code>basename</code> function extracts the subdirectory name, which is used as a key in the
+        <code>$result</code> array. The files within each subdirectory are scanned using <code>scandir</code>, and only
+        those with a <code>.json</code> extension are included. The check is performed using the <code>pathinfo</code>
+        function to ensure that only valid JSON files are added to the result.
+    </p>
+    <p>
+        <br>Once all subdirectories and files are processed, the script encodes the <code>$result</code> array into JSON
+        format and sends it as the response to the client. The result is an organized structure where each key
+        represents a date (the subdirectory name), and the value is an array of JSON files found in that subdirectory.
     </p>
 
     <h2>Transparency and Ethical Considerations</h2>
+
     <p>
-        Renderer’s Realm prioritizes transparency. No personal user data is stored. All interactions and results are saved locally for user convenience and can be cleared or exported upon request.
+        Transparency and ethical practices are central to Renderer’s Realm. Below are key aspects of how user data is
+        handled:
+    </p>
+
+    <h3><br>Data Collected:</h3>
+    <p>
+        The platform limits the type of data it collects to only what is essential
+        for its functionality. Specifically, Renderer’s Realm stores input prompts, timestamps, and the generated
+        images in Base64 format. No personal or identifiable information about users is collected at any point,
+        ensuring their anonymity is preserved during every interaction. This minimalistic approach to data
+        collection reflects the platform's dedication to user privacy.
+    </p>
+
+    <h3><br>Local Storage:</h3>
+    <p>
+        All collected data is stored locally on the user’s device. This ensures that
+        users maintain full access and control over their data without it being transmitted or stored on external
+        servers. By
+        keeping the data on the user’s system, Renderer’s Realm eliminates concerns about third-party access or
+        centralized data breaches, providing an added layer of security and reassurance.
+    </p>
+
+    <h3><br>Security:</h3>
+    <p>
+        All communication with the Hugging Face API is secured using an API key. This
+        ensures that data transmitted to the API remains confidential and secure. Importantly, no data is shared
+        with third-party entities beyond what is necessary for generating outputs through the API. This stringent
+        approach to data handling prevents misuse and safeguards user privacy.
+    </p>
+
+    <p>
+        <br>Renderer’s Realm aims to encourage trust by providing complete visibility into its operations and
+        prioritizing user
+        privacy and data control.
     </p>
 </div>
-<!-- Behind The Scenes End -->
 {% endblock %}
 
 {% block footer %}
-{% include "footer.html"%}
+{% include "footer.html" %}
 {% endblock %}
 
 {% block backToTop %}
-{% include "backToTop.html"%}
+{% include "backToTop.html" %}
 {% endblock %}
 
 {% block preloader %}
-{% include "preloader.html"%}
+{% include "preloader.html" %}
 {% endblock %}

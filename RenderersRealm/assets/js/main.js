@@ -21,6 +21,7 @@ const newChatButton = document.querySelector('.new-chat');
 const userMessageContainer = document.getElementById('userMessageContainer');
 const jsonPrevArrow = document.querySelector('#json-prev img');
 const jsonNextArrow = document.querySelector('#json-next img');
+const jsonNavButtons = document.querySelectorAll('.json-nav-buttons');
 
 // Declare a variable to store the user-defined file name
 let jsonFileName = ''
@@ -71,14 +72,16 @@ function getCurrentDate() {
 // Helper function to toggle text color
 function toggleTextColor(isLightMode) {
     const textElements = document.querySelectorAll('h1, h2, h3, ol, ul, span, p, a, .logo, button, .json-date, .file-link');
+    const preElements = document.querySelectorAll('pre'); // Select all <pre> elements
 
     textElements.forEach((el) => {
-        if (isLightMode) {
-            el.style.color = 'black'; // Black for light mode
-        } else {
-            el.style.color = 'white'; // White for dark mode
-        }
+        el.style.color = isLightMode ? 'black' : 'white'; // Adjust text color
     });
+
+    preElements.forEach((pre) => {
+        pre.style.backgroundColor = isLightMode ? '#6a6a6a' : '#333'; // Light gray for light mode, dark for dark mode
+    });
+
 
     // Update placeholder text color for the textarea
     if (textareaElement) {
@@ -119,6 +122,7 @@ const themes = {
         chatClickToConvert: { background: 'orange', hover: '#c58000' },
         chatInButton: { background: 'orange', hover: '#c58000' },
         toggleAllButton: { background: '#ce8600', hover: '#e79600' },
+        backToTop: { background: '#ce8600', hover: '#e79600' },
         textLight: false,
     },
     blue: {
@@ -136,6 +140,7 @@ const themes = {
         chatClickToConvert: { background: '#564bfe', hover: '#4537bd' },
         chatInButton: { background: '#564bfe', hover: '#4537bd' },
         toggleAllButton: { background: '#564bfe', hover: '#4537bd' },
+        backToTop: { background: '#564bfe', hover: '#4537bd' },
         textLight: false,
     },
     dark: {
@@ -153,6 +158,7 @@ const themes = {
         chatClickToConvert: { background: 'limegreen', hover: 'green' },
         chatInButton: { background: 'limegreen', hover: 'green' },
         toggleAllButton: { background: '#a2a2a2b3', hover: '#7b7b7bb3' },
+        backToTop: { background: '#a2a2a2', hover: '#7b7b7b' },
         textLight: false,
     },
     light: {
@@ -170,6 +176,7 @@ const themes = {
         chatClickToConvert: { background: 'limegreen', hover: 'green' },
         chatInButton: { background: 'limegreen', hover: 'green' },
         toggleAllButton: { background: '#a2a2a2b3', hover: '#7b7b7bb3' },
+        backToTop: { background: '#a2a2a2', hover: '#7b7b7b' },
         textLight: true,
     },
 };
@@ -202,6 +209,17 @@ function applyTheme(themeName) {
             jsonPrevArrow.src = darkArrow;
             jsonNextArrow.src = darkArrow;
         }
+    }
+
+    // Apply Back to Top button styles
+    if (backToTop) {
+        backToTop.style.backgroundColor = theme.backToTop.background;
+        backToTop.addEventListener('mouseover', () => {
+            backToTop.style.backgroundColor = theme.backToTop.hover;
+        });
+        backToTop.addEventListener('mouseout', () => {
+            backToTop.style.backgroundColor = theme.backToTop.background;
+        });
     }
 
     // Apply button-specific styles
@@ -453,7 +471,7 @@ const initialContent = document.getElementById("initialContent");
 
 // Check if all necessary elements exist
 if (chatInButton && textareaElement && userOut && initialContent) {
-    const token = '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';
+    const token = '__YourAPIKeyHere__'; // Replace with your API key
 
     // Query the API
     async function query(inputText) {
@@ -467,6 +485,11 @@ if (chatInButton && textareaElement && userOut && initialContent) {
         // Display loading state for AI
         aiMessageContainer.style.display = "block";
         aiImgOut.innerHTML = `<img src="assets/images/loading.gif" alt="Loading..." />`;
+
+        // Display json nav buttons
+        jsonNavButtons.forEach(button => {
+            button.style.display = "block";
+        });
 
         // API call
         const response = await fetch(

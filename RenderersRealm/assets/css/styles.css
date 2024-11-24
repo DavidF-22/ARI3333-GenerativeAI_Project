@@ -404,28 +404,17 @@ main {
 }
 
 .chatHistory-header {
-    /* Fixes the heading at the top */
-    position: sticky;
-    /* Sticks to the top of the chatHistory */
-    top: 0;
-    padding: 10px;
-    margin: 0;
-    color: white;
-    font-size: 18px;
-    /* Ensure it stays above other content */
-    z-index: 1;
-    border-bottom: solid 1px white;
-
-    /* Add flexbox */
-    display: flex;
-    gap: 10ex;
-    justify-content: center; /* Vertically align items */
+    display: flex; /* Enable flexbox layout */
+    gap: 10ex; /* Space between h1 and button */
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Align items vertically */
+    padding: 10px; /* Add some padding */
+    border-bottom: solid 1px white; /* Styling */
 }
 
 .chatHistory-header h1 {
     font-size: 20px;
     margin: 0; /* Remove default margin */
-    padding-top: 0.65ex;
 }
 
 .new-chat {
@@ -437,11 +426,28 @@ main {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin: 0; /* Remove top margin to align with the heading */
+    margin: 0; /* Remove extra spacing */
 }
 
 .new-chat:hover {
     background-color: rgba(170, 170, 170, 0.702);
+}
+
+/* Media query to stack elements on smaller screens */
+@media (max-width: 1150px) {
+    .chatHistory-header {
+        flex-direction: column; /* Stack items vertically */
+        gap: 1ex; /* Reduce spacing between items */
+    }
+
+    .chatHistory-header h1 {
+        font-size: 18px; /* Adjust font size for smaller screens */
+    }
+
+    .new-chat {
+        width: 100%; /* Make button full-width for better usability */
+        text-align: center; /* Center text inside button */
+    }
 }
 
 /* Webkit-based browsers (Chrome, Edge, Safari) */
@@ -721,6 +727,7 @@ main {
     align-items: center; /* Center buttons horizontally */
     position: relative;
     height: 100%; /* Make sure the container spans the available height */
+    display: none; /* Hide the buttons by default */
 }
 
 .json-nav-button {
@@ -894,11 +901,10 @@ main {
 
 /* Behind The Scenes Page */
 .behind-the-scenes-container {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 20px;
     line-height: 1.6;
-    border-radius: 8px;
 }
 
 .behind-the-scenes-container h1 {
@@ -998,7 +1004,7 @@ main {
     right: 15px;
     bottom: 15px;
     z-index: 15;
-    background-color: rgba(162, 162, 162);
+    background-color: rgb(162, 162, 162);
     border-radius: 10ex;
     width: 45px;
     height: 45px;
@@ -1010,7 +1016,7 @@ main {
 }
 
 .backToTop:hover {
-    background-color: rgb(0, 0, 0);
+    background-color: #7b7b7b;
     background-image: url("../images/up-arrow-white.png");
     background-repeat: no-repeat;
     background-size: cover;
