@@ -5,8 +5,84 @@
 {% endblock %}
 
 {% block content %}
-<!-- ======= Behind The Scenes ======= -->
- 
+<div class="behind-the-scenes-container">
+    <h1>Behind the Scenes</h1>
+    <p>
+        Renderer’s Realm is a cutting-edge platform that merges AI with user-friendly web design. This page outlines the underlying processes that make the website function, including data flow, architecture, and the API integration.
+    </p>
+
+    <h2>System Workflow</h2>
+    <p>The platform follows a well-defined workflow:</p>
+    <ol>
+        <li>Users interact with the interface, entering text prompts or using voice input.</li>
+        <li>The input is processed client-side using JavaScript.</li>
+        <li>The processed input is sent to the Hugging Face API for image generation (<code>black-forest-labs/FLUX.1-dev</code>).</li>
+        <li>The API response (an image) is rendered dynamically on the page.</li>
+        <li>The data, including the input and image, is stored in JSON format for reference.</li>
+    </ol>
+
+    <h2>Key Technologies</h2>
+    <p>This platform uses the following technologies:</p>
+    <ul>
+        <li><strong>Front-End:</strong> HTML, CSS, JavaScript.</li>
+        <li><strong>Back-End:</strong> PHP scripts for JSON file handling and API requests.</li>
+        <li><strong>AI Integration:</strong> Hugging Face model for generating images based on user input.</li>
+    </ul>
+
+    <h2>Example Code Snippets</h2>
+    <h3>1. API Integration</h3>
+    <pre><code class="language-js">
+async function query(inputText) {
+    const response = await fetch(
+        "https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-dev",
+        {
+            headers: { Authorization: `Bearer ${token}` },
+            method: "POST",
+            body: JSON.stringify({ inputs: inputText }),
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error("API request failed");
+    }
+
+    const result = await response.blob();
+    return result;
+}
+    </code></pre>
+
+    <h3>2. Data Storage</h3>
+    <pre><code class="language-js">
+async function saveToJSON(userInput, aiImageUrl) {
+    const newEntry = { userInput, aiImageUrl, timestamp: new Date().toISOString() };
+    existingData.push(newEntry);
+
+    await fetch('save_to_json.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ date: getCurrentDate(), fileName, data: existingData }),
+    });
+}
+    </code></pre>
+
+    <h2>Data Flow and Accessibility</h2>
+    <p>
+        Data flow is managed via JavaScript and PHP:
+    </p>
+    <ul>
+        <li>Input data is collected from the user interface and passed to the server.</li>
+        <li>The PHP script (<code>save_to_json.php</code>) stores the data in organized JSON files.</li>
+        <li>The <code>get_json_files.php</code> script fetches stored data for display in the "Chat Logs" section.</li>
+    </ul>
+    <p>
+        Users can access their data through the chat logs, ensuring transparency and traceability.
+    </p>
+
+    <h2>Transparency and Ethical Considerations</h2>
+    <p>
+        Renderer’s Realm prioritizes transparency. No personal user data is stored. All interactions and results are saved locally for user convenience and can be cleared or exported upon request.
+    </p>
+</div>
 <!-- Behind The Scenes End -->
 {% endblock %}
 
