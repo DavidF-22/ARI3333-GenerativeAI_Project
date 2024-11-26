@@ -597,6 +597,12 @@ if (window.location.pathname.endsWith('index.php')) {
                     aiMessageContainer.style.display = "block";
                 }
 
+                if (jsonNavButtons) {
+                    jsonNavButtons.forEach(button => {
+                        button.style.display = "block";
+                    });
+                }
+
                 // Display the last entry in the JSON file
                 const mostRecentEntry  = reversedData[0]; // Get the most recent entry
                 userOut.textContent = mostRecentEntry .userInput || "No user input found.";
