@@ -8,15 +8,15 @@
 <div class="behind-the-scenes-container">
     <h1>Behind the Scenes</h1>
 
-    <p>
+    <span>
         Renderer’s Realm is a cutting-edge platform that merges AI with user-friendly web design. This page outlines the
         underlying processes that make the website function, including setup, data flow, architecture, and API
         integration.
-    </p>
+    </span>
 
     <h2>How to Set Up</h2>
 
-    <p>Follow these steps to configure Renderer’s Realm on your local environment:</p>
+    <span>Follow these steps to configure Renderer’s Realm on your local environment:</span>
 
     <ol>
         <li>
@@ -69,7 +69,7 @@
 
     <h2>System Workflow</h2>
 
-    <p>Renderer’s Realm operates through the following workflow:</p>
+    <span>Renderer’s Realm operates through the following workflow:</span>
 
     <ol>
         <li>Users input prompts via text or voice commands on the interface.</li>
@@ -93,7 +93,7 @@
 
     <h2>Key Features</h2>
 
-    <p>The platform incorporates several key features:</p>
+    <span>The platform incorporates several key features:</span>
 
     <ul>
         <li>
@@ -112,11 +112,11 @@
 
     <h3>1. API Integration</h3>
 
-    <p>
+    <span>
         The following JavaScript code demonstrates how this webpage interacts with an AI-powered API to generate outputs
         based on user input. It is structured to ensure all necessary HTML elements exist before proceeding, handles
         user input, communicates with an API, and displays the results dynamically.
-    </p>
+    </span>
 
     <pre><code class="language-js">
         // Check if all necessary elements exist
@@ -200,53 +200,56 @@
         }
     </code></pre>
 
-    <p>
+    <span>
         First, the code checks whether all necessary elements exist in the DOM. These include the
         <code>chatInButton</code>, which is the button for submitting user input; <code>textareaElement</code>, where
         the user types their prompt; <code>userOut</code>, a container for displaying the user's input; and
         <code>initialContent</code>, which typically represents an initial welcome message or interface. If any of these
         elements are missing, the subsequent logic will not execute, ensuring that errors are avoided.
-    </p>
-    <p>
-        <br>A constant, <code>token</code>, is defined, representing the authentication key needed to interact with the
+    </span>
+    <span>
+        <br><br>A constant, <code>token</code>, is defined, representing the authentication key needed to interact with
+        the
         Hugging Face API. This token is required for making API requests securely. The <code>query</code> function is
         then defined as an asynchronous function responsible for communicating with the API. It begins by hiding the
         <code>initialContent</code> to clear the screen and dynamically displays the user’s input in the
         <code>userOut</code> container. At the same time, a loading animation is displayed to inform the user that the
         system is processing their input.
-    </p>
-    <p>
-        <br>The <code>fetch</code> function is used to send the input to the Hugging Face API. The request includes the
+    </span>
+    <span>
+        <br><br>The <code>fetch</code> function is used to send the input to the Hugging Face API. The request includes
+        the
         authorization token in the headers and the user’s input, formatted as a JSON object, in the body of a POST
         request. If the response from the API indicates a failure, an error is thrown. However, if the response is
         successful, the result is returned as a Blob, which is a binary representation of the generated output (such as
         an image).
-    </p>
-    <p>
-        <br>The <code>handleInput</code> function processes the user’s input from the <code>textareaElement</code>. It
+    </span>
+    <span>
+        <br><br>The <code>handleInput</code> function processes the user’s input from the <code>textareaElement</code>.
+        It
         trims
         unnecessary whitespace and ensures the input is not empty before sending it to the <code>query</code> function.
         Once the API responds with a Blob, it is converted into a Base64 string that can be displayed as an image
         directly in the webpage. Additionally, the input and output (the generated image) are saved locally in a JSON
         file using a separate function, <code>saveToJSON</code>. After saving, the <code>fetchAndDisplayFiles</code>
         function updates the user interface to reflect the new data.
-    </p>
-    <p>
-        <br>Event listeners are added to improve user interaction. The first event listener triggers the
+    </span>
+    <span>
+        <br><br>Event listeners are added to improve user interaction. The first event listener triggers the
         <code>handleInput</code> function when the user clicks the submit button. The second event listener is attached
         to the <code>textareaElement</code>, allowing the user to submit their input using the keyboard shortcut
         <code>Shift + Enter</code>. This ensures that newline characters are not added inadvertently and provides a
         smooth interaction experience. If a JSON file name is not set, the user is prompted to provide one before
         proceeding.
-    </p>
+    </span>
 
     <h3>2. Data Storage</h3>
 
-    <p>
+    <span>
         This PHP script processes JSON data sent from the frontend and saves it to a file in a structured directory. It
         validates the data, dynamically creates directories, and provides feedback about the success or failure of
         the operation.
-    </p>
+    </span>
 
     <pre><code class="language-php">
         &lt;?php
@@ -292,44 +295,46 @@
         ?&gt;
     </code></pre>
 
-    <p>
+    <span>
         The script begins by setting the content type of the HTTP response to <code>application/json</code>. This
         ensures that any response sent back to the client is in JSON format. It then retrieves the incoming data from
         the <code>php://input</code> stream and decodes it into a PHP associative array. If the data cannot be decoded
         or is missing, the script sends an HTTP 400 (Bad Request) response with an error message and terminates further
         execution.
-    </p>
-    <p>
-        <br>Once the data is successfully decoded, the script extracts three key pieces of information:
+    </span>
+    <span>
+        <br><br>Once the data is successfully decoded, the script extracts three key pieces of information:
         <code>date</code>,
         <code>fileName</code>, and <code>jsonData</code>. The <code>date</code> is used to organize files into
         subdirectories, the <code>fileName</code> represents the name of the JSON file to be saved (defaulting to
         <code>default.json</code> if not provided), and <code>jsonData</code> contains the full array of data to be
         written into the file. If any of these three values are missing, the script again returns a 400 error and stops
         execution.
-    </p>
-    <p>
-        <br>The script then defines the paths for the base directory (<code>assets/json</code>), the subdirectory named
+    </span>
+    <span>
+        <br><br>The script then defines the paths for the base directory (<code>assets/json</code>), the subdirectory
+        named
         after the date, and the target JSON file. If the subdirectory does not already exist, the <code>mkdir</code>
         function is used to create it, with permissions set to <code>0777</code> to allow full read, write, and execute
         access.
-    </p>
-    <p>
-        <br>Finally, the script attempts to save the data to the target file using <code>file_put_contents</code>. The
+    </span>
+    <span>
+        <br><br>Finally, the script attempts to save the data to the target file using <code>file_put_contents</code>.
+        The
         data
         is encoded into JSON format with <code>JSON_PRETTY_PRINT</code> to make the file human-readable. If the file is
         successfully written, a 200 (OK) response is sent back to the client, along with the path to the saved file. If
         the operation fails, a 500 (Internal Server Error) response is returned, indicating that the file could not be
         saved.
-    </p>
+    </span>
 
     <h3>3. Data Retrieval</h3>
 
-    <p>
+    <span>
         This PHP script scans a specified directory for subdirectories and JSON files, organising the results into an
         associative array and returning them in JSON format. It is designed to provide a structured overview of files
         stored in a hierarchical directory structure.
-    </p>
+    </span>
 
     <pre><code class="language-php">
         &lt;?php
@@ -360,69 +365,70 @@
         ?&gt;
     </code></pre>
 
-    <p>
+    <span>
         The script begins by setting the HTTP response header to <code>application/json</code>, ensuring that the client
         receives the response in JSON format. The variable <code>$jsonDir</code> is defined to represent the path to the
         base directory containing JSON files and subdirectories. If the specified directory does not exist, the script
         immediately terminates execution and returns a JSON-encoded error message indicating an invalid directory path.
-    </p>
-    <p>
-        <br>An empty array, <code>$result</code>, is initialized to store the organized file information. Using the
+    </span>
+    <span>
+        <br><br>An empty array, <code>$result</code>, is initialized to store the organized file information. Using the
         <code>glob</code> function combined with <code>array_filter</code>, the script scans the base directory for
         subdirectories. Each subdirectory is treated as a collection of files associated with a specific date, where the
         subdirectory name serves as the date identifier.
-    </p>
-    <p>
-        <br>The script iterates over each subdirectory using a <code>foreach</code> loop. Within the loop, the
+    </span>
+    <span>
+        <br><br>The script iterates over each subdirectory using a <code>foreach</code> loop. Within the loop, the
         <code>basename</code> function extracts the subdirectory name, which is used as a key in the
         <code>$result</code> array. The files within each subdirectory are scanned using <code>scandir</code>, and only
         those with a <code>.json</code> extension are included. The check is performed using the <code>pathinfo</code>
         function to ensure that only valid JSON files are added to the result.
-    </p>
-    <p>
-        <br>Once all subdirectories and files are processed, the script encodes the <code>$result</code> array into JSON
+    </span>
+    <span>
+        <br><br>Once all subdirectories and files are processed, the script encodes the <code>$result</code> array into
+        JSON
         format and sends it as the response to the client. The result is an organized structure where each key
         represents a date (the subdirectory name), and the value is an array of JSON files found in that subdirectory.
-    </p>
+    </span>
 
     <h2>Transparency and Ethical Considerations</h2>
 
-    <p>
+    <span>
         Transparency and ethical practices are central to Renderer’s Realm. Below are key aspects of how user data is
         handled:
-    </p>
+    </span>
 
     <h3><br>Data Collected:</h3>
-    <p>
+    <span>
         The platform limits the type of data it collects to only what is essential
         for its functionality. Specifically, Renderer’s Realm stores input prompts, timestamps, and the generated
         images in Base64 format. No personal or identifiable information about users is collected at any point,
         ensuring their anonymity is preserved during every interaction. This minimalistic approach to data
         collection reflects the platform's dedication to user privacy.
-    </p>
+    </span>
 
     <h3><br>Local Storage:</h3>
-    <p>
+    <span>
         All collected data is stored locally on the user’s device. This ensures that
         users maintain full access and control over their data without it being transmitted or stored on external
         servers. By
         keeping the data on the user’s system, Renderer’s Realm eliminates concerns about third-party access or
         centralized data breaches, providing an added layer of security and reassurance.
-    </p>
+    </span>
 
     <h3><br>Security:</h3>
-    <p>
+    <span>
         All communication with the Hugging Face API is secured using an API key. This
         ensures that data transmitted to the API remains confidential and secure. Importantly, no data is shared
         with third-party entities beyond what is necessary for generating outputs through the API. This stringent
         approach to data handling prevents misuse and safeguards user privacy.
-    </p>
+    </span>
 
-    <p>
+    <span>
         <br>Renderer’s Realm aims to encourage trust by providing complete visibility into its operations and
         prioritizing user
         privacy and data control.
-    </p>
+    </span>
 </div>
 {% endblock %}
 

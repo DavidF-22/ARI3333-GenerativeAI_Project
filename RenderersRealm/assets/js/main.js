@@ -108,8 +108,8 @@ function blobToBase64(blob) {
 // Centralized theme configurations, including light mode
 const themes = {
     red: {
-        icon: 'assets/images/RenderersRealm_Icon2.ico',
-        favicon: 'assets/images/RenderersRealm_Icon2.ico',
+        icon: 'assets/images/RenderersRealm_Icon3.png',
+        favicon: 'assets/images/RenderersRealm_Icon3.png',
         headerColor: '#790808',
         chatHistoryColor: '#790808',
         textareaColor: '#790808',
@@ -126,8 +126,8 @@ const themes = {
         textLight: false,
     },
     blue: {
-        icon: 'assets/images/RenderersRealm_Icon1.ico',
-        favicon: 'assets/images/RenderersRealm_Icon1.ico',
+        icon: 'assets/images/RenderersRealm_Icon2.png',
+        favicon: 'assets/images/RenderersRealm_Icon2.png',
         headerColor: '#48a6ccb3',
         chatHistoryColor: '#48a6ccb3',
         textareaColor: '#48a6ccb3',
@@ -144,8 +144,8 @@ const themes = {
         textLight: false,
     },
     dark: {
-        icon: 'assets/images/RenderersRealm_Icon1.ico',
-        favicon: 'assets/images/RenderersRealm_Icon1.ico',
+        icon: 'assets/images/RenderersRealm_Icon1.png',
+        favicon: 'assets/images/RenderersRealm_Icon1.png',
         headerColor: '#a2a2a2b3',
         chatHistoryColor: '#a2a2a2b3',
         textareaColor: '#a2a2a2b3',
@@ -162,8 +162,8 @@ const themes = {
         textLight: false,
     },
     light: {
-        icon: 'assets/images/RenderersRealm_Icon1.ico',
-        favicon: 'assets/images/RenderersRealm_Icon1.ico',
+        icon: 'assets/images/RenderersRealm_Icon1.png',
+        favicon: 'assets/images/RenderersRealm_Icon1.png',
         headerColor: '#a2a2a2b3',
         chatHistoryColor: '#a2a2a2b3',
         textareaColor: '#a2a2a2b3',
@@ -379,8 +379,11 @@ async function fetchAndDisplayFiles() {
         if (Object.keys(data).length === 0) {
             console.log("No JSON files or dates found.");
         } else {
-            // Iterate over each date (subdirectory) and its files
-            Object.keys(data).forEach((date) => {
+            // Reverse the dates to show the most recent ones first
+            const sortedDates = Object.keys(data).sort((a, b) => new Date(b) - new Date(a));
+
+            // Iterate over each sorted date and its files
+            sortedDates.forEach((date) => {
                 // Append the date to the file list
                 const dateItem = document.createElement('li');
                 dateItem.classList.add('json-date'); // Add a common class
@@ -412,7 +415,6 @@ async function fetchAndDisplayFiles() {
         console.error("Error fetching JSON files:", error);
     }
 }
-
 
 // Ensure the function runs on page load
 if (chatHistoryElement) {
