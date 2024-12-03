@@ -473,8 +473,7 @@ const initialContent = document.getElementById("initialContent");
 
 // Check if all necessary elements exist
 if (chatInButton && textareaElement && userOut && initialContent) {
-    const token = '__YourAPIKeyHere__'; // Replace with your API key
-
+    const token = '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';
     // Query the API
     async function query(inputText) {
         // Hide the initial content
