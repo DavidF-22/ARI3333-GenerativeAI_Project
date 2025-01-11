@@ -258,7 +258,7 @@ function saveThemeToLocalStorage(themeName) {
 // Initialize the theme on page load
 function initializeTheme() {
     // saveThemeToLocalStorage(''); // set to default
-    const savedTheme = localStorage.getItem('selectedTheme')  || 'dark';
+    const savedTheme = localStorage.getItem('selectedTheme');
     applyTheme(savedTheme);
     console.log("Current Theme: " + savedTheme);
 }
