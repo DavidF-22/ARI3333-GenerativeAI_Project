@@ -9,7 +9,7 @@ Welcome to the repository for the **ARI3333 Generative AI Project**. This projec
 4. [Installation](#installation)
 5. [Usage](#usage)
 
----
+
 
 ## Overview
 
@@ -21,7 +21,7 @@ The platform is designed to be user-friendly and features:
 - Chat-based input for generating images
 - Local storage of JSON logs for generated data
 
----
+
 
 ## Features
 - **Image Generation**: Generate high-quality, context-aware images using text prompts.
@@ -30,7 +30,7 @@ The platform is designed to be user-friendly and features:
 - **Local Storage**: Generated images and logs are stored in JSON format for review and reuse.
 - **Preloader and Responsive Design**: The interface is optimized for a smooth user experience across devices.
 
----
+
 
 ## Technologies Used
 - **Frontend**: HTML, CSS, JavaScript
@@ -39,7 +39,7 @@ The platform is designed to be user-friendly and features:
 - **Web Server**: Apache (via XAMPP)
 - **JSON**: For data storage and retrieval
 
----
+
 
 ## Installation
 
@@ -59,7 +59,7 @@ Follow these steps to set up the project locally:
 ### Run the Application:
 1. Open your browser and navigate to: `http://localhost/ARI3333-GenerativeAI_Project`
 
----
+
 
 ## Usage
 1. Open the website interface in your browser.
