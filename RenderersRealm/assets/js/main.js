@@ -1,3 +1,6 @@
+// ! TO Locate token for API
+// * CTRL + F -> token
+
 // Header - NavBar
 const redThemeButton = document.querySelector('.red-theme');
 const blueThemeButton = document.querySelector('.blue-theme');
@@ -42,7 +45,7 @@ function sleep(ms) {
 
 // Prompt the user for the file name at the start of the session
 function promptForFileName(message) {
-    const defaultName = 'Ex: Chatbot_Conversation';
+    const defaultName = 'default_file_name';
     const userProvidedName = prompt(message, defaultName);
     jsonFileName = userProvidedName.trim();
 
@@ -66,7 +69,7 @@ function getCurrentDate() {
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, '0');
     const day = String(today.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
+    return `${day}-${month}-${year}`;
 }
 
 // Helper function to toggle text color
@@ -358,6 +361,9 @@ async function saveToJSON(userInput, aiImageUrl) {
     } catch (error) {
         console.error("Error appending data to JSON file:", error);
     }
+
+    // update the json file list
+    fetchAndDisplayFiles();
 }
 
 async function fetchAndDisplayFiles() {
@@ -473,11 +479,16 @@ const initialContent = document.getElementById("initialContent");
 
 // Check if all necessary elements exist
 if (chatInButton && textareaElement && userOut && initialContent) {
-    const token = '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';
+    const token = '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';
     // Query the API
     async function query(inputText) {
         // Hide the initial content
         initialContent.style.display = "none";
+
+        // Hide json nav buttons
+        jsonNavButtons.forEach(button => {
+            button.style.display = "none";
+        });
 
         // Display user message
         userMessageContainer.style.display = "block";
@@ -486,11 +497,6 @@ if (chatInButton && textareaElement && userOut && initialContent) {
         // Display loading state for AI
         aiMessageContainer.style.display = "block";
         aiImgOut.innerHTML = `<img src="assets/images/loading.gif" alt="Loading..." />`;
-
-        // Display json nav buttons
-        jsonNavButtons.forEach(button => {
-            button.style.display = "block";
-        });
 
         // API call
         const response = await fetch(
@@ -532,7 +538,14 @@ if (chatInButton && textareaElement && userOut && initialContent) {
     }
 
     // Event listener for button click
-    chatInButton.addEventListener("click", handleInput);
+    chatInButton.addEventListener("click", () => {
+        if (!jsonFileName) {
+            alert("File name is not set yet");
+            promptForFileName("Enter a name for the JSON file: ");
+            return; // Exit if no file name is set
+        }
+        handleInput();
+    });
 
     // Event listener for Shift + Enter key press
     textareaElement.addEventListener("keydown", (event) => {
@@ -542,7 +555,7 @@ if (chatInButton && textareaElement && userOut && initialContent) {
             if (!jsonFileName) {
                 alert("File name is not set yet");
                 sleep(ms = 250).then(() => { promptForFileName("Enter a name for the JSON file: "); });
-                return;
+                return; // Exit if no file name is set
             }
 
             handleInput();
@@ -560,7 +573,7 @@ if (window.location.pathname.endsWith('index.php')) {
         const button = event.target.closest(".file-link");
         if (button) {
             const filePath = button.getAttribute("data_img_path");
-            console.log("Fetching JSON file from:", filePath); // Debug file path
+            console.log("Loading JSON file from:", filePath); // Debug file path
 
             if (!filePath) {
                 console.error("File path not found in data attribute.");

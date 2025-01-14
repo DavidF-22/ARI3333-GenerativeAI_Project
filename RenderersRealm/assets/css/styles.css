@@ -651,7 +651,7 @@ main {
     align-items: center;
     justify-content: space-between;
     /* Full width */
-    width: 100%;
+    width: 90%;
     margin: 10px 0;
     /* Top and bottom padding */
     padding: 5px 0;
@@ -725,13 +725,16 @@ main {
     flex-direction: column; /* Stack buttons vertically */
     justify-content: center; /* Center buttons vertically */
     align-items: center; /* Center buttons horizontally */
-    position: relative;
-    height: 100%; /* Make sure the container spans the available height */
-    display: none; /* Hide the buttons by default */
+    position: fixed; /* Fix the position relative to the viewport */
+    right: 15px; /* Keep the buttons on the right side */
+    top: 35%; /* Center vertically on the screen */
+    transform: translateY(-50%); /* Adjust for proper vertical centering */
+    z-index: 10; /* Ensure they appear above other content */
+    display: none; /* Hide by default */
 }
 
 .json-nav-button {
-    margin: 5px 0; /* Add some spacing between the buttons */
+    margin: 10px 0; /* Add some spacing between the buttons */
     border: none;
     background-color: rgba(162, 162, 162, 0.7);
     border-radius: 50%; /* Make buttons circular */
@@ -741,7 +744,6 @@ main {
     justify-content: center;
     align-items: center; /* Center the icon inside the button */
     cursor: pointer;
-    margin-right: 1.5ex;
     transition: background-color 0.3s ease;
 }
 
