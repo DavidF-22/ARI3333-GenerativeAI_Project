@@ -32,7 +32,7 @@ let jsonFileName = ''
 if (newChatButton) {
     newChatButton.addEventListener("click", () => {
         if (window.location.pathname.endsWith('index.php')) {
-            promptForFileName("Enter a name for the JSON file: ");
+            promptForFileName("Enter a name for the JSON file\nNote: Please don't use spcaes. Thank you: ");
         }
     });
 }
@@ -60,6 +60,12 @@ function promptForFileName(message) {
         userMessageContainer.style.display = "none";
         aiMessageContainer.style.display = "none";
         initialContent.style.display = "block";
+
+        if (jsonNavButtons) {
+            jsonNavButtons.forEach(button => {
+                button.style.display = "none";
+            });
+        }
     }
 }
 
@@ -479,7 +485,7 @@ const initialContent = document.getElementById("initialContent");
 
 // Check if all necessary elements exist
 if (chatInButton && textareaElement && userOut && initialContent) {
-    const token = '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';
+    const token = '__Your_API_Token__'; // Replace with your API token hf_XXXXXXX
     // Query the API
     async function query(inputText) {
         // Hide the initial content
@@ -510,6 +516,9 @@ if (chatInButton && textareaElement && userOut && initialContent) {
 
         // Handle response
         if (!response.ok) {
+            // promt error to user
+            prompt(`API Request failed with status: ${response.status}`);
+
             throw new Error("API request failed");
         }
 
