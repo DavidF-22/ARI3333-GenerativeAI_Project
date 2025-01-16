@@ -485,7 +485,7 @@ const initialContent = document.getElementById("initialContent");
 
 // Check if all necessary elements exist
 if (chatInButton && textareaElement && userOut && initialContent) {
-    const token = '__Your_API_Token__'; // Replace with your API token hf_XXXXXXX
+    const token = '__YourAPIKeyHere__'; // Add your API key here 'hf_XXXXXXX'
     // Query the API
     async function query(inputText) {
         // Hide the initial content
@@ -517,7 +517,7 @@ if (chatInButton && textareaElement && userOut && initialContent) {
         // Handle response
         if (!response.ok) {
             // promt error to user
-            prompt(`API Request failed with status: ${response.status}`);
+            alert(`API Request failed with status: ${response.status}`);
 
             throw new Error("API request failed");
         }
